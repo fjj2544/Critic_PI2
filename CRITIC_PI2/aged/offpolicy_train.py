@@ -7,10 +7,8 @@ import pickle
 from tools.env_copy import copy_env
 import matplotlib.pyplot as plt
 from dynamic_model import Dynamic_Net
-###2020/07/08###
-#####TODO: This problem is only used for offpolicy learning, once loaded the database file, it will not store episodes that created by its own.
 #####################  hyper parameters  ######################
-from PI2_replaybuffer import Replay_buffer
+from PI2_replay_buffer import Replay_buffer
 
 TRAIN_FROM_SCRATCH = False # 是否加载模型
 MAX_EP_STEPS = 100  # 每条采样轨迹的最大长度

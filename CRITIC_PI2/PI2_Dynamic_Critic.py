@@ -6,57 +6,55 @@ import copy
 from tools.env_copy import copy_env
 import matplotlib.pyplot as plt
 from dynamic_model import Dynamic_Net
-###2020/07/08###
-#####TODO: This problem is only used for offpolicy learning, once loaded the database file, it will not store episodes that created by its own.
-#####################  hyper parameters  ######################
-from PI2_replaybuffer import Replay_buffer
+from PI2_replay_buffer import Replay_buffer
+from tools.plot_data import save_figure,save_data
 
-TRAIN_FROM_SCRATCH = False # 是否加载模型
-MAX_EP_STEPS = 100  # 每条采样轨迹的最大长度
-LR_A = 0.001  # learning rate for actor
-LR_C = 0.002  # learning rate for critic
-GAMMA = 0.99
+########################################################################################### Begin hyper parameters ####################################################
+ENV_NAME = "InvertedDoublePendulum-v1"              # 训练环境,TODO:注意需要修改对应的reward设置
+TRAIN_FROM_SCRATCH = False                          # 是否加载模型
+load_model_path = './data_0716/models.ckpt'         # load model 的位置
+save_model_path = './data_op/models.ckpt'           # save model 的位置
+ROLL_OUTS = 20                                      # PI2并行采样数
 
-VALUE_TRAIN_TIME = 100
-ACTOR_TRAIN_TIME = 50
-DYNAMIC_TRAIN_TIME = 50
+TEST_INTERVAl = 1                                   # Test 打印的时间
+PLOT_INTERVAL = 10                                  # PLOT 的时间 FOR DEBUG
+MAX_EP_STEPS = 100                                  # 每条采样轨迹的最大长度 比如step 多少次就停止进入下一个step
+VALUE_TRAIN_TIME = 100                              # Value 网络训练次数
+ACTOR_TRAIN_TIME = 50                               # Actor 网络训练次数
+DYNAMIC_TRAIN_TIME = 50                             # Dynamic 网络训练次数
 
-# reward discount
-# TAU = 0.01      # soft replacement
-TRAIN_TIME = 300
-MEMORY_CAPACITY = 15000
-BATCH_SIZE = 32
-ROLL_OUTS = 20  # PI2并行采样数
-SAMPLE_SIZE = 128  # 训练时采样数，分成minibatch后进行训练
-ENV_NAME = "InvertedDoublePendulum-v1"
-PI2_coefficient = 30
-MINI_BATCH = 1 # 训练的时候的minibatch
-NUM_EPISODES = 2  # 每次rollout_train采样多少条轨迹
-load_model_path = './data_0716/models.ckpt'
-save_model_path = './data_op/models.ckpt'
+TRAIN_TIME = 300                                    # 总共训练次数
+BATCH_SIZE = 32                                     # Batch大小
+SAMPLE_SIZE = 128                                   # 训练时采样数，分成minibatch后进行训练
+PI2_coefficient = 30                                # PI2的参数
+MINI_BATCH = 1                                      # 训练时候Mini-batch大小
+NUM_EPISODES = 2                                    # 每次PI2往后试探的时候采集的轨迹数
+
+LR_A = 0.001                                        # Actor的学习率
+LR_C = 0.002                                        # Critic的学习率
+GAMMA = 0.99                                        # 折扣因子
+MEMORY_CAPACITY = 15000                             # Buffer大小
+###########################################################################################  END parameters  ####################################################
+
 """
 =========================流程==================================
 self.learn()函数包含一次采样（rollout_train）和一次训练（update）
-rollout_trian函数使用self.pi2_critic函数选取动作，这个函数输入状态，根据actor产生动作，然后使用PI2的方法产生合成动作
+rollout_train函数使用self.pi2_critic函数选取动作，这个函数输入状态，根据actor产生动作，然后使用PI2的方法产生合成动作
 update分为critic update和action update。
 """
 
-
 class PI2_Critic(object):
     def __init__(self, a_dim, s_dim, a_bound, env=None, buffer=None):
-        self.dynamic_memory = np.zeros((MEMORY_CAPACITY, s_dim + s_dim + a_dim), dtype=np.float32)
-        # 1(the last dimension) for reward
-        self.num_episodes = NUM_EPISODES
-        self.minibatch = MINI_BATCH
+        self.env = copy_env(env)
+        self.sess = tf.Session()
+        # ---------------------------------------------------超参数---------------------------------------------------
         self.sample_size = SAMPLE_SIZE
         self.trainfromscratch = TRAIN_FROM_SCRATCH
-        self.sess = tf.Session()
-        self.env = copy_env(env)
-        self.reset_env = copy_env(env)
-        self.globaltesttime = 0
+        # ---------------------------------------------------数据存储---------------------------------------------------
         self.vtrace_losses = []
         self.dlosses = []
         self.alosses = []
+        # ---------------------------------------------------Actor Critic Model 板块-----------------------------------
         self.dynamic_model = Dynamic_Net(s_dim, a_dim,'dm')
         if buffer == None:
             self.buffer = Replay_buffer()
@@ -75,7 +73,6 @@ class PI2_Critic(object):
         with tf.variable_scope('Critic'):
             self.q = self._build_c(self.S, scope='vtrace', trainable=True)
             self.q_compare = self._build_c(self.S, scope='td_lambda', trainable=True)
-        # networks parameters
         self.ae_params = tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, scope='Actor/eval')
         self.cv_params = tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, scope='Critic/vtrace')
         self.ctd_params = tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, scope='Critic/td_lambda')
@@ -91,67 +88,42 @@ class PI2_Critic(object):
         if not self.trainfromscratch:
             self.buffer.load_data()
 
-    def save_model(self, model_path=save_model_path):
-        self.saver.save(self.sess, model_path)
-
-    def restore_model(self, model_path=load_model_path):
-        self.saver.restore(self.sess, model_path)
-
-    def choose_action(self, s):
-        s = s.reshape(1, -1)
-        return self.sess.run(self.a, {self.S: s})[0]
-
     def sample_action(self, s):
         action = self.sess.run(self.a_mu, {self.S: s})[0]
         return action
-
     def get_state_value(self, s):
         # 获得状态对应的V
         s = s.reshape([-1, s_dim])
         v0 =  self.sess.run(self.q, {self.S: s})
-        #v1 = self.sess.run(self.q_compare, {self.S: s})
         return v0
-
-
-
     def get_probability(self, s, a):
         # 获得状态动作对应的概率
         return self.sess.run(self.action_prob, {self.current_action: a, self.S: s})
-
-    def test(self,test_time=3, use_vtrace=False):
+    def test(self, test_times=3, use_vtrace=False):
         # 测试，use_hybrid_action表示是否使用PI2动作
-
         ave_reward = 0
         ave_time = 0
-        for i in range(test_time):
+        for i in range(test_times):
             total_reward = 0
             obs = self.env.reset()
             done = False
             t = 0
             while (not done) and (t <= MAX_EP_STEPS):
-                # time_start = time.time()
                 if use_vtrace==True:
-                    act = self.dypi2(obs, self.env, use_vtrace=use_vtrace)
-                   # act = self.pi2_with_critic(obs, self.env, use_vtrace=use_vtrace)
+                    act = self.PI2_using_Dynamic(obs, self.env, use_vtrace=use_vtrace)
                 else:
                     act = self.pi2_tradition(obs, self.env)
-
                 new_obs, r, done, _ = self.env.step(act)
                 total_reward += r
                 t += 1
                 obs = new_obs
-                # time_end = time.time()
             ave_reward += total_reward
             ave_time += t
-        ave_reward = ave_reward / test_time
-        ave_time = ave_time / test_time
+        ave_reward = ave_reward / test_times
+        ave_time = ave_time / test_times
         return ave_reward, ave_time
-
     def learn(self, update_type = 1):
-        # 采样+学习
-        #self.rollout_train(num_episodes=self.num_episodes, max_length=MAX_EP_STEPS)
         self.update(update_type=update_type)
-
     def parse_episode(self, epi):
         # 输入一串episode，该函数会按顺序返回states，actions，reward， probability
         epi = copy.deepcopy(epi)
@@ -174,7 +146,6 @@ class PI2_Critic(object):
             next_states[i] = next_state
             probs[i] = probability
         return states, actions, rewards, next_states, probs
-
     def _build_a(self, s, scope, trainable):
         with tf.variable_scope(scope):
             # 1.2.策略网络第一层隐含层
@@ -187,7 +158,6 @@ class PI2_Critic(object):
             normal_dist = tf.contrib.distributions.Normal(a_mu, a_sigma)
             # 根据正态分布采样一个动作
         return normal_dist, a_mu
-
     def _build_c(self, s, scope, trainable):
         with tf.variable_scope(scope):
             net_1 = tf.layers.dense(inputs=s, units=128, activation=tf.nn.relu,
@@ -199,7 +169,6 @@ class PI2_Critic(object):
                                     bias_initializer=tf.constant_initializer(0.1),
                                     trainable=trainable)
             return tf.layers.dense(net_2, 1, trainable=trainable)  # Q(s,a)
-
     def compute_return(self, episode, val_t, rewards, td_lambda = 0.9):
         path_len = len(episode)
         temp_return = np.zeros(path_len)
@@ -211,9 +180,6 @@ class PI2_Critic(object):
             curr_val = curr_r + GAMMA*((1-td_lambda)*val_t[i+1]+td_lambda*next_return)
             temp_return[i] = curr_val
         return temp_return
-
-
-
     def compute_vtrace_target(self, states, val_t, rewards, probs, actions):
         path_len = len(states)
         vtrace_target = np.zeros(path_len)
@@ -232,24 +198,14 @@ class PI2_Critic(object):
             #curr_v = GAMMA * weight * (curr_r + next_v) + (1 - GAMMA * weight) * val_t[i]
             vtrace_target[i] = curr_v
         return vtrace_target
-
-
-
     def update(self, update_type = 1):
         if update_type == 1:
-         #   self.actor_training()
             self.critic_training()
-            # self.dynamic_training()
         elif update_type == 2:
             self.dynamic_training()
         elif update_type==3:
             self.actor_training()
-
-
-      #  self.actor_training()
-
     def critic_training(self, n_sample_size=SAMPLE_SIZE, traintime=VALUE_TRAIN_TIME):
-        minibatch = self.minibatch
         n_episodes = self.buffer.get_length()
         indices = np.random.choice(n_episodes, size=n_sample_size, )  # p=weight)  # 随机生成序号
         episodes = []
@@ -277,11 +233,7 @@ class PI2_Critic(object):
 
                 print("vtrace loss is ", vtrace_loss)
             self.vtrace_losses.append(vtrace_loss)
-        return vtrace_loss / traintime
-
     def actor_training(self, n_sample_size=SAMPLE_SIZE, traintime=ACTOR_TRAIN_TIME):
-
-        minibatch = self.minibatch
         n_episodes = self.buffer.get_length()
         if n_sample_size > n_episodes:
             n_sample_size = n_episodes
@@ -310,11 +262,7 @@ class PI2_Critic(object):
                 if (value_train_times + 1) % 5 == 0:
                     print("aloss is ", aloss)
                 self.alosses.append(aloss)
-        return aloss
-
     def dynamic_training(self, n_sample_size=SAMPLE_SIZE, traintime=DYNAMIC_TRAIN_TIME):
-
-        minibatch = self.minibatch
         n_episodes = self.buffer.get_length()
         if n_sample_size > n_episodes:
             n_sample_size = n_episodes
@@ -341,11 +289,8 @@ class PI2_Critic(object):
         for value_train_times in range(traintime):
             dloss = self.dynamic_model.learn(target_sactions, target_dynamics)
             if (value_train_times+1)%10 == 0:
-                #dloss = dloss / value_train_times
                 self.dlosses.append(dloss)
                 print('dynamic is ', dloss)
-        return dloss
-
     def sample_dynamic(self, episodes):
         episodes_dynamics = []
         episodes_sactions = []
@@ -388,6 +333,7 @@ class PI2_Critic(object):
             episodes_probs.append(probs)
         return episodes_states, vtrace_values, updated_vtrace_values, episodes_actions
 
+    # -------------------------------------封装好的算法--------------------------------------
     def pi2_with_critic(self, initial_start, env, iteration_times=5, use_vtrace = True):
         batch_max_value = np.zeros([iteration_times, 2])
         total_time = time.time()
@@ -449,9 +395,7 @@ class PI2_Critic(object):
         # total_time = time.time() - total_time
         #   print('pi2_with_critic took ', total_time,' s')
         return batch_max_value[index][0]
-
-
-    def dypi2(self, initial_start, env, iteration_times=5, use_vtrace = True):
+    def PI2_using_Dynamic(self, initial_start, env, iteration_times=5, use_vtrace = True):
         batch_max_value = np.zeros([iteration_times, 2])
         for i in range(iteration_times):
             # initial_time = time.time()
@@ -527,7 +471,6 @@ class PI2_Critic(object):
         return batch_max_value[index][0]
     def MPC(self, initial_start, env, iteration_times=5):
         batch_max_value = np.zeros([iteration_times, 2])
-        #total_time = time.time()
         for i in range(1):
             initial_time = time.time()
             envs = [copy_env(env) for j in range((ROLL_OUTS+1)*iteration_times) ] # 复制环境，为计算V(S) = r+v(S_(t+1))做准备
@@ -542,8 +485,6 @@ class PI2_Critic(object):
             next_stages = []
             rewards = []
             initial_time = time.time() - initial_time
-            # print('initial took', initial_time, ' s')
-          #  calculate_value_time = time.time()
             for j in range(len(action_groups)):
                 temp_next_state, temp_reward, _, _ = envs[j].step(copy.deepcopy(action_groups[j][0]))
                 next_stages.append(temp_next_state)
@@ -552,8 +493,6 @@ class PI2_Critic(object):
             rewards = np.array(rewards)
             next_values = np.array(self.get_state_value(state_groups))
             values = rewards.reshape([(ROLL_OUTS+1)*iteration_times, 1]) + next_values
-#            calculate_value_time = time.time() - calculate_value_time
-            #  print('calculate value time took ', calculate_value_time)
             get_hybrid_action = time.time()
             probability_weighting = np.zeros(((ROLL_OUTS+1)*iteration_times, 1), dtype=np.float64)
             exponential_value_loss = np.zeros(((ROLL_OUTS+1)*iteration_times, 1), dtype=np.float64)
@@ -579,23 +518,16 @@ class PI2_Critic(object):
             batch_max_value[i][0] = copy.deepcopy(current_action)
             batch_max_value[i][1] = copy.deepcopy(current_value)
             initial_action = hybrid_action
-           # get_hybrid_action = time.time() - get_hybrid_action
-        #  print('get hybrid action took :', get_hybrid_action)
         index = np.argmax(batch_max_value[:, 1], axis=0)
-        # total_time = time.time() - total_time
-        #   print('pi2_with_critic took ', total_time,' s')
         return batch_max_value[index][0]
-
     def GPS(self, initial_start, env, iteration_times=5):
         # pi2探索，输入状态，生成混合动作，点优化5次，去最好。
-     #   total_time = time.time()
         batch_max_value = np.zeros([iteration_times, 2])
         for i in range(1):
-         #   initial_time = time.time()
-            envs = [copy_env(env) for j in range((ROLL_OUTS+1)*iteration_times)]  # 复制环境，为计算V(S) = r+v(S_(t+1))做准备
+            envs = [copy_env(env) for j in range((ROLL_OUTS+1)*iteration_times)]
             if i == 0:
                 initial_action = self.sample_action(
-                    initial_start.reshape([-1, s_dim]))  # initial action is supposed to be [action_dim,] narray object
+                    initial_start.reshape([-1, s_dim]))
             sigma = np.ones([(ROLL_OUTS+1)*iteration_times, self.a_dim])
             sigma[0] = np.zeros_like(sigma[0])
             action_groups = np.squeeze(
@@ -623,12 +555,7 @@ class PI2_Critic(object):
                     temp_next_state, temp_reward, done = self.dynamic_model.prediction(s_a)
                     r += temp_reward
                 rewards[j] = r
-            #print(len(rewards))
-
             values = rewards.reshape([(ROLL_OUTS+1)*iteration_times, 1])
-            #    calculate_value_time = time.time() - calculate_value_time
-            #  print('calculate value time took ', calculate_value_time)
-            #    time_start = time.time()
             probability_weighting = np.zeros(((ROLL_OUTS+1)*iteration_times, 1), dtype=np.float64)
             exponential_value_loss = np.zeros(((ROLL_OUTS+1)*iteration_times, 1), dtype=np.float64)
             maxv = np.max(values, axis=0)
@@ -659,27 +586,12 @@ class PI2_Critic(object):
             batch_max_value[i][0] = copy.deepcopy(current_action)
             batch_max_value[i][1] = copy.deepcopy(current_value)
             initial_action = hybrid_action
-            #    time_end = time.time()
-            #    print('get hybrid action :', time_end - time_start)
-
         index = np.argmax(batch_max_value[:, 1], axis=0)
-        # total_time = time.time() - total_time
-        # print('pi2_tradition took ', total_time,' s')
         return batch_max_value[index][0]
-
-
-            #initial_time = time.time() - initial_time
-         #   print('initial took', initial_time, ' s')
-         #   calculate_value_time = time.time()
-
-
-
     def pi2_tradition(self, initial_start, env, iteration_times=5):
         # pi2探索，输入状态，生成混合动作，点优化5次，去最好。
-        #   total_time = time.time()
         batch_max_value = np.zeros([iteration_times, 2])
         for i in range(iteration_times):
-            #   initial_time = time.time()
             envs = [copy_env(env) for j in range(ROLL_OUTS + 1)]  # 复制环境，为计算V(S) = r+v(S_(t+1))做准备
             if i == 0:
                 initial_action = self.sample_action(
@@ -690,9 +602,6 @@ class PI2_Critic(object):
                 np.clip(np.random.normal(initial_action, sigma), -self.a_bound[0], self.a_bound[0]))
             action_groups = action_groups.reshape(ROLL_OUTS, self.a_dim)
             rewards = np.zeros([len(action_groups)])
-            # initial_time = time.time() - initial_time
-            #   print('initial took', initial_time, ' s')
-            #   calculate_value_time = time.time()
             for j in range(len(action_groups)):
 
                 r = 0
@@ -715,9 +624,6 @@ class PI2_Critic(object):
                 rewards[j] = r
 
             values = rewards.reshape([ROLL_OUTS, 1])
-            #    calculate_value_time = time.time() - calculate_value_time
-            #  print('calculate value time took ', calculate_value_time)
-            #    time_start = time.time()
             probability_weighting = np.zeros((ROLL_OUTS, 1), dtype=np.float64)
             exponential_value_loss = np.zeros((ROLL_OUTS, 1), dtype=np.float64)
             maxv = np.max(values, axis=0)
@@ -750,53 +656,50 @@ class PI2_Critic(object):
             batch_max_value[i][0] = copy.deepcopy(current_action)
             batch_max_value[i][1] = copy.deepcopy(current_value)
             initial_action = hybrid_action
-        #    time_end = time.time()
-        #    print('get hybrid action :', time_end - time_start)
         index = np.argmax(batch_max_value[:, 1], axis=0)
-        # total_time = time.time() - total_time
-        # print('pi2_tradition took ', total_time,' s')
         return batch_max_value[index][0]
+    def save_model(self, model_path=save_model_path):
+        self.saver.save(self.sess, model_path)
+        print(f"save model in {model_path}")
+    def restore_model(self, model_path=load_model_path):
+        self.saver.restore(self.sess, model_path)
+        print(f"load model in {model_path}")
 
-env = gym.make(ENV_NAME)
-env = env.unwrapped
-env.seed()
-epoch = int(1e4)
-s_dim = env.observation_space.shape[0]
-a_dim = env.action_space.shape[0]
-a_bound = env.action_space.high.shape
-print("action bound is", a_bound)
-s = env.reset()
-pi2_critic = PI2_Critic(a_dim, s_dim, a_bound, env)
-
-normal_rewards = []
-hybrid_rewards = []
-pi2_critic.restore_model(model_path='./20201020')
-# for i in range(100):
-#     CRITIC_PI2.learn(update_type=3)
-print('Pretraining Finishied')
-for i in range(500):
-    pi2_critic.learn(update_type=2)
-    if (i+1) % 1== 0:
-        print('======================start testing=========================')
-        r,t = pi2_critic.test(use_vtrace=True)
-        print('==========PI2_Critic ', r,' steps',t,'=============')
-        normal_rewards.append(r)
-        # r,t = CRITIC_PI2.test(use_vtrace=False)
-        # print('==========Without Vtrace ', r,' steps',t,'=============')
-        # hybrid_rewards.append(r)
-    if (i+1)%10 == 0:
-        try:
-            #CRITIC_PI2.save_model(model_path='./20201020')
-            # CRITIC_PI2.buffer.save_data()
-            # print('data saved successfully')
-            plt.plot(normal_rewards, label='PI2_Dynamic')
-            # plt.plot(hybrid_rewards, label='PI2')
-            #  plt.plot(losses[2], label='MOMENTUM')
-            print(normal_rewards)
-            plt.xlabel('hundred epoches', fontsize=16)
-            plt.ylabel('Scores', fontsize=16)
-            plt.legend()
-            plt.savefig('./images/different_epoches_training_for_dynamic_with_static_values.png')
-            plt.clf()
-        except:
-            print('figure save failed')
+'''
+#########################################################################################################################################################################
+################################################################################################FOR TEST#################################################################
+#########################################################################################################################################################################
+'''
+if __name__ == '__main__':
+    env = gym.make(ENV_NAME)
+    env = env.unwrapped
+    env.seed(1)
+    epochs= int(1e4)
+    s_dim = env.observation_space.shape[0]
+    a_dim = env.action_space.shape[0]
+    a_bound = env.action_space.high.shape
+    print(f"Environment Information:\nState Dim\t{s_dim}\nAction Dim\t{a_dim}\n Action Bound\t{a_bound}")
+    s = env.reset()
+    pi2_critic = PI2_Critic(a_dim, s_dim, a_bound, env)
+    normal_rewards = []
+    hybrid_rewards = []
+    pi2_critic.restore_model(model_path='./20201020')
+    print("================================================Start Training================================")
+    for epoch in range(epochs):
+        pi2_critic.learn(update_type=2)
+        if epoch % TEST_INTERVAl == 0:
+            print('======================start testing=========================')
+            r, t = pi2_critic.test(use_vtrace=True)
+            print(f'===============PI2_Critic {r} steps{t}=====================')
+            normal_rewards.append(r)
+        if epoch % PLOT_INTERVAL == 0:
+            try:
+                plt.plot(normal_rewards, label='PI2_Dynamic')
+                print(normal_rewards)
+                plt.xlabel('hundred epoches', fontsize=16)
+                plt.ylabel('Scores', fontsize=16)
+                plt.legend()
+                plt.show()
+                plt.clf()
+            except:
+                print('Show Figure Fail')

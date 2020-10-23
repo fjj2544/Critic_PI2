@@ -6,11 +6,8 @@ import copy
 import pickle
 from tools.env_copy import copy_env
 import matplotlib.pyplot as plt
-###2020/07/08###
-#####TODO:加入了高斯策略和
-#####################  hyper parameters  ######################
-from PI2_replaybuffer import Replay_buffer
-
+from PI2_replay_buffer import Replay_buffer
+###########################################################################################  hyper parameters  ####################################################
 TRAIN_FROM_SCRATCH = True  # 是否加载模型
 MAX_EP_STEPS = 200  # 每条采样轨迹的最大长度
 LR_A = 0.001  # learning rate for actor
@@ -31,6 +28,8 @@ PI2_coefficient = 30
 MINI_BATCH = 4  # 训练的时候的minibatch
 NUM_EPISODES = 2  # 每次rollout_train采样多少条轨迹
 model_path = './data_0716/models.ckpt'
+
+###########################################################################END hyper parameters####################################################################################################
 """
 =========================流程==================================
 self.learn()函数包含一次采样（rollout_train）和一次训练（update）
@@ -541,54 +540,54 @@ class PI2_Critic(object):
         # print('pi2_tradition took ', total_time,' s')
         return batch_max_value[index][0]
 
+if __name__ == '__main__':
+    env = gym.make(ENV_NAME)
+    env = env.unwrapped
+    env.seed()
+    epoch = int(1e4)
+    s_dim = env.observation_space.shape[0]
+    a_dim = env.action_space.shape[0]
+    a_bound = env.action_space.high.shape
+    print("action bound is", a_bound)
+    s = env.reset()
+    pi2_critic = PI2_Critic(a_dim, s_dim, a_bound, env)
 
-env = gym.make(ENV_NAME)
-env = env.unwrapped
-env.seed()
-epoch = int(1e4)
-s_dim = env.observation_space.shape[0]
-a_dim = env.action_space.shape[0]
-a_bound = env.action_space.high.shape
-print("action bound is", a_bound)
-s = env.reset()
-pi2_critic = PI2_Critic(a_dim, s_dim, a_bound, env)
+    normal_rewards = []
+    hybrid_rewards = []
+    for i in range(epoch):
+        if True:
+            pi2_critic.learn()
+            print('======================start testing=========================')
+            r, t = pi2_critic.test(use_hybrid_method=False)
+            print('==========test tradtition  reward ', r, ' steps', t, '=============')
+            normal_rewards.append(r)
+            r, t = pi2_critic.test(use_hybrid_method=True)
+            print('==========test hybrid  reward ', r, ' steps', t, '=============')
+            hybrid_rewards.append(r)
+        if (i + 1) % 20 == 0:
+            # 保存图片
+            try:
+                pi2_critic.save_model()
+                pi2_critic.buffer.save_data(model_path)
+                print('data saved successfully')
+                plt.plot(normal_rewards)
+                plt.savefig('./data/normal_rewards.jpg')
+                plt.clf()
+                plt.plot(hybrid_rewards)
+                plt.savefig('./data/hybrid_rewards.jpg')
+                plt.clf()
+                plt.plot(pi2_critic.alosses)
+                plt.savefig('./data/alosses.jpg')
+                plt.clf()
+                plt.plot(pi2_critic.closses)
+                plt.savefig('./data/closses.jpg')
+                print('figure saved successfully')
+                plt.clf()
+                with open('./data/PI2', 'wb') as f:
+                    pickle.dump(normal_rewards, f, pickle.HIGHEST_PROTOCOL)
+                with open('./data/GPS', 'wb') as f:
+                    pickle.dump(hybrid_rewards, f, pickle.HIGHEST_PROTOCOL)
 
-normal_rewards = []
-hybrid_rewards = []
-for i in range(epoch):
-    if True:
-        pi2_critic.learn()
-        print('======================start testing=========================')
-        r, t = pi2_critic.test(use_hybrid_method=False)
-        print('==========test tradtition  reward ', r, ' steps', t, '=============')
-        normal_rewards.append(r)
-        r, t = pi2_critic.test(use_hybrid_method=True)
-        print('==========test hybrid  reward ', r, ' steps', t, '=============')
-        hybrid_rewards.append(r)
-    if (i + 1) % 20 == 0:
-        # 保存图片
-        try:
-            pi2_critic.save_model()
-            pi2_critic.buffer.save_data(model_path)
-            print('data saved successfully')
-            plt.plot(normal_rewards)
-            plt.savefig('./data/normal_rewards.jpg')
-            plt.clf()
-            plt.plot(hybrid_rewards)
-            plt.savefig('./data/hybrid_rewards.jpg')
-            plt.clf()
-            plt.plot(pi2_critic.alosses)
-            plt.savefig('./data/alosses.jpg')
-            plt.clf()
-            plt.plot(pi2_critic.closses)
-            plt.savefig('./data/closses.jpg')
-            print('figure saved successfully')
-            plt.clf()
-            with open('./data/PI2', 'wb') as f:
-                pickle.dump(normal_rewards, f, pickle.HIGHEST_PROTOCOL)
-            with open('./data/GPS', 'wb') as f:
-                pickle.dump(hybrid_rewards, f, pickle.HIGHEST_PROTOCOL)
-
-        # model_path = './Standard_buffer_data/reward_data'
-        except:
-            print('figure save failed')
+            # model_path = './Standard_buffer_data/reward_data'
+            except:
+                print('figure save failed')

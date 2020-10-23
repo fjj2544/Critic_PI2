@@ -31,17 +31,19 @@ class Replay_buffer():
         self.pointer += 1
         return self.pointer
     def save_data(self, model_path):
-
         with open(model_path, 'wb') as f:
             pickle.dump(self.buffer_data, f, pickle.HIGHEST_PROTOCOL)
-        # model_path = './Standard_buffer_data/reward_data'
+            print(f"save buffer_date in {model_path}")
         with open(model_path, 'wb') as f:
             pickle.dump(self.rewards, f, pickle.HIGHEST_PROTOCOL)
+            print(f"save rewards in {model_path}")
     def load_data(self):
         model_path = './Standard_buffer_data/buffer_data'
         with open(model_path, 'rb') as f:
            self.buffer_data = pickle.load(f)
+           print(f"load buffer_date in {model_path}")
         model_path = './Standard_buffer_data/reward_data'
         with open(model_path, 'rb') as f:
            self.rewards = pickle.load(f)
+           print(f"load reward_data in {model_path}")
         self.pointer = len(self.buffer_data)
