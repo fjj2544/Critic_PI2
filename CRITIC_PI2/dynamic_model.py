@@ -2,8 +2,10 @@ import tensorflow as tf
 import numpy as np
 # from tools.Pendulum import reward_function
 # from tools.InvertedPendulum import reward_function,is_done
-from InvertedDoublePendulum import reward_function,is_done
+from envs.InvertedDoublePendulum import reward_function,is_done
 tf.set_random_seed(1)
+
+from tools.plot_data import mkdir
 class Dynamic_Net():
     def __init__(self,
                  observation_dim,
@@ -73,7 +75,9 @@ class Dynamic_Net():
 
         return predict_out, reward,done
     # 定义存储模型函数
-    def save_model(self, model_path='./dynamic'):
+    def save_model(self, model_dir,model_name):
+        mkdir(model_dir)
+        model_path = model_dir+model_name
         self.saver.save(self.sess, model_path)
 
     # 定义恢复模型函数

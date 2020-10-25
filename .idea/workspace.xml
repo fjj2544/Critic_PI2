@@ -2,16 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f0f12305-0a77-4f69-a3da-d10a905ab27a" name="默认" comment="">
-      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/envs/InvertedPendulum.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/envs/Pendulum.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/ICRA.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ICRA.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/Replay_Buffer.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/envs/Hopper.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/envs/Walker2d.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/test.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRITIC_PI2/InvertedDoublePendulum.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRITIC_PI2/tools/InvertedDoublePendulum.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRITIC_PI2/tools/InvertedPendulum.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRITIC_PI2/tools/Pendulum.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRITIC_PI2/tools/sda.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Critic_PI2/dynamic_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/Critic_PI2/dynamic_model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRITIC_PI2/Actor_Critic_Model.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRITIC_PI2/Algorithms/MPC.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRITIC_PI2/Algorithms/MPC.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRITIC_PI2/Algorithms/traditional_pi2.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRITIC_PI2/Algorithms/traditional_pi2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRITIC_PI2/PI2_replaybuffer.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRITIC_PI2/dynamic_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRITIC_PI2/dynamic_model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRITIC_PI2/dynamic_pi2.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRITIC_PI2/dynamic_pi2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRITIC_PI2/log/2020-10-25T21-26-22/events.out.tfevents.1603632387.DESKTOP-DOGO6AE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/muzero-general" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -22,6 +25,8 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/DSP$PI2_nonlinear_plane.coverage" NAME="PI2_nonlinear_plane Coverage Results" MODIFIED="1599535684327" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Desktop/nonlinear_plane/nonlinear_plane/x64/Release" />
+    <SUITE FILE_PATH="coverage/ICRA$dynamic_pi2.coverage" NAME="dynamic_pi2 Coverage Results" MODIFIED="1603636144933" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Critic_PI2" />
+    <SUITE FILE_PATH="coverage/ICRA$test.coverage" NAME="test Coverage Results" MODIFIED="1603634953353" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Critic_PI2" />
   </component>
   <component name="DatabaseView">
     <option name="SHOW_INTERMEDIATE" value="true" />
@@ -38,23 +43,62 @@
     <select />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="dynamic_model.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Critic_PI2/dynamic_model.py">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="InvertedPendulum.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Critic_PI2/envs/InvertedPendulum.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="38">
-              <caret line="2" column="32" selection-start-line="2" selection-start-column="32" selection-end-line="2" selection-end-column="32" />
+            <state relative-caret-position="171">
+              <caret line="9" column="15" selection-start-line="9" selection-start-column="15" selection-end-line="9" selection-end-column="15" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dynamic_pi2.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Critic_PI2/dynamic_pi2.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="57">
+              <caret line="3" column="30" selection-start-line="3" selection-start-column="30" selection-end-line="3" selection-end-column="30" />
+              <folding>
+                <element signature="e#40#58#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="InvertedDoublePendulum.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Critic_PI2/envs/InvertedDoublePendulum.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
   <component name="FindInProjectRecents">
     <findStrings>
       <find>jit</find>
       <find>step</find>
       <find>print</find>
+      <find>mkdir</find>
+      <find>save</find>
+      <find>TIMESTAMP</find>
+      <find>vtrace_error</find>
+      <find>reward_per_episode</find>
+      <find>sigma</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -64,7 +108,11 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$USER_HOME$/Desktop/nonlinear_plane/nonlinear_plane/x64/Release/PI2_nonlinear_plane.py" />
+        <option value="$PROJECT_DIR$/Critic_PI2/Actor_Critic_Model.py" />
+        <option value="$PROJECT_DIR$/Critic_PI2/test.py" />
+        <option value="$PROJECT_DIR$/Critic_PI2/Replay_Buffer.py" />
         <option value="$PROJECT_DIR$/Critic_PI2/dynamic_model.py" />
+        <option value="$PROJECT_DIR$/Critic_PI2/dynamic_pi2.py" />
       </list>
     </option>
   </component>
@@ -85,7 +133,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -98,10 +145,17 @@
               <item name="ICRA" type="462c0819:PsiDirectoryNode" />
               <item name="Critic_PI2" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="ICRA" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ICRA" type="462c0819:PsiDirectoryNode" />
+              <item name="Critic_PI2" type="462c0819:PsiDirectoryNode" />
+              <item name="envs" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -112,7 +166,12 @@
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\my programming\workplace\ICRA\Critic_PI2\tools" />
+      <recent name="D:\my programming\workplace\ICRA\Critic_PI2\envs" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\my programming\workplace\ICRA\Critic_PI2\" />
       <recent name="D:\my programming\workplace\ICRA\Critic_PI2\envs" />
       <recent name="D:\my programming\workplace\ICRA\Critic_PI2\tools" />
       <recent name="D:\my programming\workplace\ICRA\CRITIC_PI2\model" />
@@ -130,7 +189,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.dynamic_pi2">
     <configuration name="PI2_nonlinear_plane" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="ICRA" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -150,8 +209,53 @@
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
     </configuration>
+    <configuration name="dynamic_pi2" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="ICRA" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Critic_PI2" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Critic_PI2/dynamic_pi2.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="ICRA" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Critic_PI2" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Critic_PI2/test.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.PI2_nonlinear_plane" />
+      <item itemvalue="Python.dynamic_pi2" />
+      <item itemvalue="Python.test" />
+    </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.dynamic_pi2" />
+        <item itemvalue="Python.test" />
         <item itemvalue="Python.PI2_nonlinear_plane" />
       </list>
     </recent_temporary>
@@ -167,24 +271,42 @@
       <option name="presentableId" value="Default" />
       <updated>1599377500087</updated>
     </task>
+    <task id="LOCAL-00001" summary="第一次更新">
+      <created>1603633639869</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1603633639869</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="878" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32928476" />
       <window_info anchor="bottom" id="调试" order="7" weight="0.32884097" />
-      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5013405" side_tool="true" weight="0.32884097" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.25523013" />
-      <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Python Console" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="7" visible="true" weight="0.32928476" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21045576" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32928476" />
+      <window_info anchor="bottom" id="Python Console" order="7" weight="0.32928476" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.25506073" />
+      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49865952" weight="0.32793522" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21313673" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" weight="0.32908848" />
-      <window_info anchor="right" id="SciView" order="3" visible="true" weight="0.20844504" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3297587" />
+      <window_info anchor="right" id="SciView" order="3" weight="0.20844504" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -194,7 +316,6 @@
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.3297587" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -203,19 +324,141 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="第一次更新" />
+    <option name="LAST_COMMIT_MESSAGE" value="第一次更新" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <option name="time" value="5" />
+    </breakpoint-manager>
+  </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/Critic_PI2/Replay_Buffer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$USER_HOME$/Desktop/nonlinear_plane/nonlinear_plane/x64/Release/PI2_nonlinear_plane.py" />
     <entry file="file://$USER_HOME$/Desktop/nonlinear_plane/nonlinear_plane/x64/Release/PI2_nonlinear_plane.py" />
     <entry file="file://$USER_HOME$/Desktop/nonlinear_plane/nonlinear_plane/nonlinear_plane.sln" />
     <entry file="file://$USER_HOME$/Desktop/nonlinear_plane/nonlinear_plane/x64/Release/PI2_nonlinear_plane.py" />
-    <entry file="file://$PROJECT_DIR$/Critic_PI2/tools/sda.cpp">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/Critic_PI2/Actor_Critic_Model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
+        <state relative-caret-position="152">
+          <caret line="8" column="71" selection-start-line="8" selection-start-column="71" selection-end-line="8" selection-end-column="71" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Critic_PI2/tools/git_maker.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="114">
+          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Critic_PI2/tools/env_copy.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Critic_PI2/tools/DDPG_upgrade_network.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Critic_PI2/tools/liner_sample.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-4799" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Critic_PI2/tools/plot_data.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="167">
+          <caret line="10" column="4" selection-start-line="10" selection-start-column="4" selection-end-line="10" selection-end-column="4" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Critic_PI2/test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="38">
+          <caret line="2" column="41" selection-start-line="2" selection-start-column="41" selection-end-line="2" selection-end-column="41" />
+          <folding>
+            <element signature="e#0#33#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bmpo/CRITIC_PI2/dynamic_pi2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="175">
+          <caret line="802" column="34" selection-start-line="802" selection-start-column="34" selection-end-line="802" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Critic_PI2/Replay_Buffer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="167">
+          <caret line="31" column="22" selection-start-line="31" selection-start-column="22" selection-end-line="31" selection-end-column="22" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/muzero-general/muzero.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="175">
+          <caret line="319" column="23" selection-start-line="319" selection-start-column="23" selection-end-line="319" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/muzero-general/trainer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="175">
+          <caret line="93" column="31" selection-start-line="93" selection-start-column="31" selection-end-line="93" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Critic_PI2/dynamic_model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="73" lean-forward="true" selection-start-line="73" selection-end-line="73" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Critic_PI2/tools/clear_zero.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="133">
+          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Critic_PI2/envs/Walker2d.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="297">
+          <caret line="25" column="11" selection-start-line="25" selection-start-column="11" selection-end-line="25" selection-end-column="11" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Critic_PI2/envs/Hopper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="10" column="9" lean-forward="true" selection-start-line="10" selection-start-column="9" selection-end-line="10" selection-end-column="9" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -229,10 +472,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Critic_PI2/dynamic_model.py">
+    <entry file="file://$PROJECT_DIR$/Critic_PI2/envs/InvertedPendulum.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="38">
-          <caret line="2" column="32" selection-start-line="2" selection-start-column="32" selection-end-line="2" selection-end-column="32" />
+        <state relative-caret-position="171">
+          <caret line="9" column="15" selection-start-line="9" selection-start-column="15" selection-end-line="9" selection-end-column="15" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Critic_PI2/dynamic_pi2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="57">
+          <caret line="3" column="30" selection-start-line="3" selection-start-column="30" selection-end-line="3" selection-end-column="30" />
+          <folding>
+            <element signature="e#40#58#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

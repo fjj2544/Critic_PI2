@@ -1,5 +1,6 @@
 import numpy as np
 import copy
+from tools.plot_data import mkdir
 import pickle
 BUFFERSIZE = int(1e3)
 class Replay_buffer():
@@ -28,9 +29,6 @@ class Replay_buffer():
         返回buffer中episodes的数量
         """
         return self.total_interactions
-
-
-        return len(self.buffer_data)
     def store_episode(self, episode, episode_reward):
         self.total_interactions+=len(episode)
         if self.pointer >= self.buffersize:
@@ -41,8 +39,9 @@ class Replay_buffer():
             self.rewards[self.pointer % self.buffersize] = episode_reward
         self.pointer += 1
         return self.pointer
-    def save_data(self, model_path):
-
+    def save_data(self, model_dir,model_name):
+        mkdir(model_dir)
+        model_path = model_dir + model_name
         with open(model_path, 'wb') as f:
             pickle.dump(self.buffer_data, f, pickle.HIGHEST_PROTOCOL)
         # model_path = './Standard_buffer_data/reward_data'
