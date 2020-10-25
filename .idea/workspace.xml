@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f0f12305-0a77-4f69-a3da-d10a905ab27a" name="默认" comment="" />
+    <list default="true" id="f0f12305-0a77-4f69-a3da-d10a905ab27a" name="默认" comment="">
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/envs/InvertedPendulum.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/envs/Pendulum.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/ICRA.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ICRA.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRITIC_PI2/InvertedDoublePendulum.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRITIC_PI2/tools/InvertedDoublePendulum.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRITIC_PI2/tools/InvertedPendulum.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRITIC_PI2/tools/Pendulum.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRITIC_PI2/tools/sda.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Critic_PI2/dynamic_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/Critic_PI2/dynamic_model.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -27,7 +38,17 @@
     <select />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf>
+      <file leaf-file-name="dynamic_model.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Critic_PI2/dynamic_model.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="38">
+              <caret line="2" column="32" selection-start-line="2" selection-start-column="32" selection-end-line="2" selection-end-column="32" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -36,10 +57,14 @@
       <find>print</find>
     </findStrings>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
         <option value="$USER_HOME$/Desktop/nonlinear_plane/nonlinear_plane/x64/Release/PI2_nonlinear_plane.py" />
+        <option value="$PROJECT_DIR$/Critic_PI2/dynamic_model.py" />
       </list>
     </option>
   </component>
@@ -50,8 +75,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="681" />
-    <option name="y" value="76" />
+    <option name="x" value="680" />
+    <option name="y" value="75" />
     <option name="width" value="1943" />
     <option name="height" value="1103" />
   </component>
@@ -60,6 +85,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -67,11 +93,15 @@
               <item name="ICRA" type="b2602c69:ProjectViewProjectNode" />
               <item name="ICRA" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="ICRA" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ICRA" type="462c0819:PsiDirectoryNode" />
+              <item name="Critic_PI2" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -83,6 +113,8 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\my programming\workplace\ICRA\Critic_PI2\envs" />
+      <recent name="D:\my programming\workplace\ICRA\Critic_PI2\tools" />
       <recent name="D:\my programming\workplace\ICRA\CRITIC_PI2\model" />
     </key>
   </component>
@@ -139,19 +171,19 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="878" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="调试" order="7" weight="0.32884097" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Python Console" order="7" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.25523013" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.32884097" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2077748" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Python Console" order="7" />
+      <window_info anchor="bottom" id="Terminal" order="7" visible="true" weight="0.32928476" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21045576" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" weight="0.32908848" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.3297587" />
       <window_info anchor="right" id="SciView" order="3" visible="true" weight="0.20844504" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
@@ -162,6 +194,7 @@
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3297587" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -171,48 +204,37 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/Desktop/nonlinear_plane/nonlinear_plane/x64/Release/PI2_nonlinear_plane.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7296">
-          <caret line="384" column="29" selection-start-line="384" selection-start-column="29" selection-end-line="384" selection-end-column="29" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-            <element signature="e#374#13191#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Desktop/nonlinear_plane/nonlinear_plane/x64/Release/PI2_nonlinear_plane.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="817">
-          <caret line="43" column="12" lean-forward="true" selection-start-line="43" selection-start-column="12" selection-end-line="43" selection-end-column="12" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-            <element signature="e#374#13191#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Desktop/nonlinear_plane/nonlinear_plane/nonlinear_plane.sln">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
-          <caret line="4" column="10" lean-forward="true" selection-start-line="4" selection-start-column="10" selection-end-line="4" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Desktop/nonlinear_plane/nonlinear_plane/x64/Release/PI2_nonlinear_plane.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="384" column="29" selection-start-line="384" selection-start-column="29" selection-end-line="384" selection-end-column="29" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-            <element signature="e#374#13191#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CRITIC_PI2/standard_buffer是我已经生成的920条历史轨迹，可以被bufferload进来.txt">
+    <entry file="file://$USER_HOME$/Desktop/nonlinear_plane/nonlinear_plane/x64/Release/PI2_nonlinear_plane.py" />
+    <entry file="file://$USER_HOME$/Desktop/nonlinear_plane/nonlinear_plane/x64/Release/PI2_nonlinear_plane.py" />
+    <entry file="file://$USER_HOME$/Desktop/nonlinear_plane/nonlinear_plane/nonlinear_plane.sln" />
+    <entry file="file://$USER_HOME$/Desktop/nonlinear_plane/nonlinear_plane/x64/Release/PI2_nonlinear_plane.py" />
+    <entry file="file://$PROJECT_DIR$/Critic_PI2/tools/sda.cpp">
       <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Critic_PI2/Actor_Critic_Model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Critic_PI2/envs/InvertedDoublePendulum.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Critic_PI2/dynamic_model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="38">
+          <caret line="2" column="32" selection-start-line="2" selection-start-column="32" selection-end-line="2" selection-end-column="32" />
+        </state>
+      </provider>
     </entry>
   </component>
 </project>
