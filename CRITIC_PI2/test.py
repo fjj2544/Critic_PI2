@@ -1,3 +1,4 @@
-from tools.plot_data import mkdir
-from dynamic_pi2 import  TIMESTAMP
-mkdir(f"./offline_data/{TIMESTAMP}/model/")
+a = [[1],[1],[1]]
+print(a)
+b = [1,2,3]
+print(3*b)

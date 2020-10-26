@@ -1,8 +1,10 @@
 import tensorflow as tf
 import numpy as np
 # from tools.Pendulum import reward_function
-# from tools.InvertedPendulum import reward_function,is_done
+# from envs.InvertedPendulum import reward_function,is_done
 from envs.InvertedDoublePendulum import reward_function,is_done
+# from envs.Hopper import reward_function,is_done
+# from envs.Walker2d import reward_function,is_done
 tf.set_random_seed(1)
 
 from tools.plot_data import mkdir
@@ -69,7 +71,7 @@ class Dynamic_Net():
         predict_out = delta + s_a[:, 0:self.n_features]
         predict_out = predict_out.reshape([-1, self.n_features])
 
-        reward = reward_function(predict_out,s_a[:,self.n_features:self.n_features+self.n_actions])
+        reward = np.array(reward_function(predict_out,s_a[:,self.n_features:self.n_features+self.n_actions]))
         done = is_done(predict_out,s_a[:,self.n_features:self.n_features+self.n_actions])
 
 

@@ -2,13 +2,13 @@ import numpy as np
 import math
 import gym
 
-def is_done(s,a):
+def is_done(s_, a):
     done = []
-    for predict,a_ in zip(s,a):
+    for predict,a_ in zip(s_, a):
         done_ = (np.isfinite(predict).all() and (np.abs(predict[1:]) < 100).all() and (predict[0] > 0.7) and (abs(predict[1])<0.2))
         done.append(done_)
     return done
-def reward_function(s,s_,a):
+def reward_function(s_,a):
     reward = []
     for predict,a_ in zip(s_,a):
         posafter = 0.0

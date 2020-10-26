@@ -2,8 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f0f12305-0a77-4f69-a3da-d10a905ab27a" name="默认" comment="">
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/tools/plot_date_from_tensorboard.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRITIC_PI2/dynamic_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRITIC_PI2/dynamic_model.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CRITIC_PI2/dynamic_pi2.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRITIC_PI2/dynamic_pi2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRITIC_PI2/envs/Hopper.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRITIC_PI2/envs/Hopper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRITIC_PI2/envs/InvertedPendulum.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRITIC_PI2/envs/InvertedPendulum.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRITIC_PI2/envs/Pendulum.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRITIC_PI2/envs/Pendulum.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRITIC_PI2/envs/Walker2d.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRITIC_PI2/envs/Walker2d.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CRITIC_PI2/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRITIC_PI2/test.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -14,9 +21,10 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/DSP$PI2_nonlinear_plane.coverage" NAME="PI2_nonlinear_plane Coverage Results" MODIFIED="1599535684327" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Desktop/nonlinear_plane/nonlinear_plane/x64/Release" />
-    <SUITE FILE_PATH="coverage/ICRA$dynamic_pi2.coverage" NAME="dynamic_pi2 Coverage Results" MODIFIED="1603644183898" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Critic_PI2" />
+    <SUITE FILE_PATH="coverage/ICRA$dynamic_pi2.coverage" NAME="dynamic_pi2 Coverage Results" MODIFIED="1603678331051" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Critic_PI2" />
     <SUITE FILE_PATH="coverage/ICRA$test.coverage" NAME="test Coverage Results" MODIFIED="1603643612837" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Critic_PI2" />
     <SUITE FILE_PATH="coverage/ICRA$dynamic_model.coverage" NAME="dynamic_model Coverage Results" MODIFIED="1603641716689" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Critic_PI2" />
+    <SUITE FILE_PATH="coverage/ICRA$Replay_Buffer.coverage" NAME="Replay_Buffer Coverage Results" MODIFIED="1603678265029" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Critic_PI2" />
   </component>
   <component name="DatabaseView">
     <option name="SHOW_INTERMEDIATE" value="true" />
@@ -37,39 +45,8 @@
       <file leaf-file-name="dynamic_pi2.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Critic_PI2/dynamic_pi2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="437">
-              <caret line="32" column="22" selection-start-line="32" selection-start-column="22" selection-end-line="32" selection-end-column="22" />
-              <folding>
-                <element signature="e#71#89#0" expanded="true" />
-                <element signature="e#4345#5050#0" />
-                <element signature="e#5104#5863#0" />
-                <element signature="e#5920#5992#0" />
-                <element signature="e#6058#6099#0" />
-                <element signature="e#6430#6551#0" />
-                <element signature="e#6254#6423#0" />
-                <element signature="e#6469#6566#0" />
-                <element signature="e#6679#7594#0" />
-                <element signature="e#7672#8396#0" />
-                <element signature="e#8500#9403#0" />
-                <element signature="e#9505#10416#0" />
-                <element signature="e#10462#11403#0" />
-                <element signature="e#11451#11692#0" />
-                <element signature="e#11739#11876#0" />
-                <element signature="e#11962#12677#0" />
-                <element signature="e#12777#14039#0" />
-                <element signature="e#14395#15681#0" />
-                <element signature="e#15386#16664#0" />
-                <element signature="e#20065#20886#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="test.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Critic_PI2/test.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="57">
-              <caret line="3" column="10" selection-start-line="3" selection-start-column="10" selection-end-line="3" selection-end-column="10" />
+            <state relative-caret-position="186">
+              <caret line="55" column="33" selection-start-line="55" selection-start-column="33" selection-end-line="55" selection-end-column="33" />
             </state>
           </provider>
         </entry>
@@ -103,6 +80,7 @@
       <find>a_mu</find>
       <find>ROLL_OUTS</find>
       <find>initial_action</find>
+      <find>LR_C</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -122,6 +100,7 @@
         <option value="$PROJECT_DIR$/Critic_PI2/dynamic_model.py" />
         <option value="$PROJECT_DIR$/Critic_PI2/test.py" />
         <option value="$PROJECT_DIR$/Critic_PI2/dynamic_pi2.py" />
+        <option value="$PROJECT_DIR$/Critic_PI2/tools/plot_date_from_tensorboard.py" />
       </list>
     </option>
   </component>
@@ -132,8 +111,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="680" />
-    <option name="y" value="75" />
+    <option name="x" value="702" />
+    <option name="y" value="397" />
     <option name="width" value="1943" />
     <option name="height" value="1103" />
   </component>
@@ -153,64 +132,6 @@
               <item name="ICRA" type="b2602c69:ProjectViewProjectNode" />
               <item name="ICRA" type="462c0819:PsiDirectoryNode" />
               <item name="Critic_PI2" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ICRA" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ICRA" type="462c0819:PsiDirectoryNode" />
-              <item name="Critic_PI2" type="462c0819:PsiDirectoryNode" />
-              <item name="log" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ICRA" type="b2602c69:ProjectViewProjectNode" />
-              <item name="外部库" type="cb654da1:ExternalLibrariesNode" />
-            </path>
-            <path>
-              <item name="ICRA" type="b2602c69:ProjectViewProjectNode" />
-              <item name="外部库" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; Python 3.7 &gt;" type="70bed36:NamedLibraryElementNode" />
-            </path>
-            <path>
-              <item name="ICRA" type="b2602c69:ProjectViewProjectNode" />
-              <item name="外部库" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; Python 3.7 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="site-packages" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ICRA" type="b2602c69:ProjectViewProjectNode" />
-              <item name="外部库" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; Python 3.7 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="site-packages" type="462c0819:PsiDirectoryNode" />
-              <item name="~umpy" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ICRA" type="b2602c69:ProjectViewProjectNode" />
-              <item name="外部库" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; Python 3.7 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="site-packages" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ICRA" type="b2602c69:ProjectViewProjectNode" />
-              <item name="外部库" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; Python 3.7 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="site-packages" type="462c0819:PsiDirectoryNode" />
-              <item name="gym" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ICRA" type="b2602c69:ProjectViewProjectNode" />
-              <item name="外部库" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; Python 3.7 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="site-packages" type="462c0819:PsiDirectoryNode" />
-              <item name="gym" type="462c0819:PsiDirectoryNode" />
-              <item name="envs" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ICRA" type="b2602c69:ProjectViewProjectNode" />
-              <item name="外部库" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; Python 3.7 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="site-packages" type="462c0819:PsiDirectoryNode" />
-              <item name="gym" type="462c0819:PsiDirectoryNode" />
-              <item name="envs" type="462c0819:PsiDirectoryNode" />
-              <item name="mujoco" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -266,6 +187,25 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$USER_HOME$/Desktop/nonlinear_plane/nonlinear_plane/x64/Release/PI2_nonlinear_plane.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <configuration name="Replay_Buffer" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="ICRA" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Critic_PI2" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Critic_PI2/Replay_Buffer.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -333,10 +273,12 @@
       <item itemvalue="Python.dynamic_pi2" />
       <item itemvalue="Python.test" />
       <item itemvalue="Python.dynamic_model" />
+      <item itemvalue="Python.Replay_Buffer" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.dynamic_pi2" />
+        <item itemvalue="Python.Replay_Buffer" />
         <item itemvalue="Python.test" />
         <item itemvalue="Python.dynamic_model" />
         <item itemvalue="Python.PI2_nonlinear_plane" />
@@ -368,7 +310,14 @@
       <option name="project" value="LOCAL" />
       <updated>1603638188787</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="第一跑长期试验，双倒立摆">
+      <created>1603644751041</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1603644751042</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TodoView">
@@ -382,7 +331,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="878" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32928476" />
       <window_info anchor="bottom" id="调试" order="13" weight="0.32884097" />
@@ -390,9 +338,9 @@
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="11" weight="0.32928476" />
       <window_info anchor="bottom" id="Python Console" order="12" weight="0.32928476" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.25506073" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.25506073" />
       <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.49865952" weight="0.32793522" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21313673" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21313673" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="4" weight="0.32908848" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3297587" />
@@ -417,7 +365,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="第一次更新" />
     <MESSAGE value="可以跑的版本，已经进行了第一次实验（存在一些问题，比如reward方差比较大）" />
-    <option name="LAST_COMMIT_MESSAGE" value="可以跑的版本，已经进行了第一次实验（存在一些问题，比如reward方差比较大）" />
+    <MESSAGE value="第一跑长期试验，双倒立摆" />
+    <option name="LAST_COMMIT_MESSAGE" value="第一跑长期试验，双倒立摆" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -480,16 +429,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="175">
           <caret line="802" column="34" selection-start-line="802" selection-start-column="34" selection-end-line="802" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Critic_PI2/Replay_Buffer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="167">
-          <caret line="31" column="22" selection-start-line="31" selection-start-column="22" selection-end-line="31" selection-end-column="22" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -609,16 +548,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Critic_PI2/dynamic_model.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="5" column="43" selection-start-line="5" selection-start-column="43" selection-end-line="5" selection-end-column="43" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Critic_PI2/test.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="57">
@@ -626,32 +555,57 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Critic_PI2/MUJOCO_LOG.TXT">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Critic_PI2/dynamic_model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="167">
+          <caret line="37" selection-start-line="37" selection-end-line="37" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/python/envs/reforce-learning/Lib/site-packages/tensorflow/python/training/optimizer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="433">
+          <caret line="525" column="26" lean-forward="true" selection-start-line="525" selection-start-column="26" selection-end-line="525" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/python/envs/reforce-learning/Lib/site-packages/matplotlib/pyplot.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="175">
+          <caret line="2791" column="4" selection-start-line="2791" selection-start-column="4" selection-end-line="2791" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Critic_PI2/tools/plot_date_from_tensorboard.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="274">
+          <caret line="39" lean-forward="true" selection-start-line="39" selection-end-line="39" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Critic_PI2/Replay_Buffer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="27" column="11" lean-forward="true" selection-start-line="27" selection-start-column="11" selection-end-line="27" selection-end-column="11" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Critic_PI2/dynamic_pi2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="437">
-          <caret line="32" column="22" selection-start-line="32" selection-start-column="22" selection-end-line="32" selection-end-column="22" />
-          <folding>
-            <element signature="e#71#89#0" expanded="true" />
-            <element signature="e#4345#5050#0" />
-            <element signature="e#5104#5863#0" />
-            <element signature="e#5920#5992#0" />
-            <element signature="e#6058#6099#0" />
-            <element signature="e#6430#6551#0" />
-            <element signature="e#6254#6423#0" />
-            <element signature="e#6469#6566#0" />
-            <element signature="e#6679#7594#0" />
-            <element signature="e#7672#8396#0" />
-            <element signature="e#8500#9403#0" />
-            <element signature="e#9505#10416#0" />
-            <element signature="e#10462#11403#0" />
-            <element signature="e#11451#11692#0" />
-            <element signature="e#11739#11876#0" />
-            <element signature="e#11962#12677#0" />
-            <element signature="e#12777#14039#0" />
-            <element signature="e#14395#15681#0" />
-            <element signature="e#15386#16664#0" />
-            <element signature="e#20065#20886#0" />
-          </folding>
+        <state relative-caret-position="186">
+          <caret line="55" column="33" selection-start-line="55" selection-start-column="33" selection-end-line="55" selection-end-column="33" />
         </state>
       </provider>
     </entry>

@@ -3,16 +3,15 @@ import math
 import gym
 dt = 0.008
 
-def reward_function(s,a):
-    height, ang = s[0:2, 0]
+def reward_function(s_, a):
+    height, ang = s_[0, 0:2]
     alive_bonus = 1.0
     reward = 0
     reward += alive_bonus
     reward -= 1e-3 * np.square(a).sum()
     return reward
-    pass
-def is_done(s,a):
-    height,ang = s[0:2,0]
+def is_done(s_, a):
+    height,ang = s_[0, 0:2]
     done = not(height > 0.8 and height < 2.0 and
                ang > -1.0 and ang < 1.0)
     return done
