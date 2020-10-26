@@ -21,11 +21,11 @@ from tools.plot_data import mkdir
 TIMESTAMP = "{0:%Y-%m-%dT%H-%M-%S}".format(datetime.now())
 # ENV_NAME = "InvertedDoublePendulum-v1"
 # ENV_NAME = "InvertedPendulum-v1"
-# ENV_NAME = "InvertedDoublePendulum-v1" # todo
+ENV_NAME = "InvertedDoublePendulum-v1" # todo
 # ENV_NAME = "Walker2d-v1"
-ENV_NAME = "Pendulum-v0"
+# ENV_NAME = "Pendulum-v0"
 TRAIN_FROM_SCRATCH = True # 是否加载模型
-MAX_EP_STEPS = 10  # 每条采样轨迹的最大长度
+MAX_EP_STEPS = 500  # 每条采样轨迹的最大长度
 LR_A = 0.001  # learning rate for actor
 LR_C = 0.002  # learning rate for critic
 GAMMA = 0.99
