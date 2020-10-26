@@ -35,9 +35,9 @@ DYNAMIC_TRAIN_TIME = 100
 
 BATCH_SIZE = 32
 ROLL_OUTS = 100  # PI2并行采样数
-SAMPLE_SIZE = 128  # 训练时采样数，分成minibatch后进行训练
+SAMPLE_SIZE = 64  # 训练时采样数，分成minibatch后进行训练
 PI2_coefficient = 30
-MINI_BATCH = 1 # 训练的时候的minibatch
+MINI_BATCH = 128 # 训练的时候的minibatch
 DEFAULT_EPISODES_NUMBERS = 2  # 每次rollout_train采样多少条轨迹
 load_model_path = './offline_data/InvertedDoublePendulum-v1/2020-10-25T22-29-07/model/199'
 
@@ -46,7 +46,10 @@ class PI2_Critic(object):
     def __init__(self, a_dim, s_dim, a_bound, env=None, buffer=None):
         self.global_step = 0                                # 看现在已经交互了多少条轨迹了
         self.env = copy_env(env)
-        self.sess = tf.Session()
+        config = tf.ConfigProto()
+        config.gpu_options.per_process_gpu_memory_fraction = 0.5  # 程序最多只能占用指定gpu50%的显存
+        config.gpu_options.allow_growth = True  # 程序按需申请内存
+        self.sess = tf.Session(config=config)
         self.summary_writer = tf.summary.FileWriter(f"./log/{ENV_NAME}/{TIMESTAMP}/")
         self.dynamic_model = Dynamic_Net(s_dim, a_dim,'dm',sess=self.sess)
         if buffer is not  None:
@@ -72,6 +75,8 @@ class PI2_Critic(object):
         self.ae_params = tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, scope='Actor/eval')
         self.cv_params = tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, scope='Critic/vtrace')
         self.ctd_params = tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, scope='Critic/td_lambda')
+
+
         self.vtrace_error = tf.losses.mean_squared_error(labels=self.target_value, predictions=self.q)
         self.td_error = tf.losses.mean_squared_error(labels=self.target_value, predictions=self.q_compare)
         self.vtrace_train = tf.train.AdamOptimizer(LR_C).minimize(self.vtrace_error, var_list=self.cv_params)
@@ -131,12 +136,24 @@ class PI2_Critic(object):
     def get_state_value(self, s):
         # 获得状态对应的V
         s = s.reshape([-1, s_dim])
-        v0 =  self.sess.run(self.q, {self.S: s})
-        #v1 = self.sess.run(self.q_compare, {self.S: s})
+        v0 = self.sess.run(self.q, {self.S: s})
         return v0
     def get_probability(self, s, a):
         # 获得状态动作对应的概率
         return self.sess.run(self.action_prob, {self.current_action: a, self.S: s})
+    def scala_value(self,x):
+        x = tf.sign(x) * (tf.sqrt(tf.abs(x)+1)-1) + 0.001*x
+        return x
+    def descala_value(self,x):
+        x = tf.sign(x) *(
+            (
+                (tf.sqrt(1+4*0.001*
+                         (
+                             tf.abs(x)+1+0.001
+                         ))-1)/(2*0.001)
+            )**2-1
+        )
+        return x
 # ----------------------  rollout data and store data ---------------
     def parse_episode(self, epi):
         """
@@ -342,20 +359,19 @@ class PI2_Critic(object):
         data_number = len(episodes_dynamics)
         perm = np.random.permutation(data_number)
         # Using BGD
-        minibatch = data_number
+        minibatch = 32  # 轨迹的数量
         target_sactions = []
-        total_dynamics = []
         target_dynamics = []
         for i in range(0, data_number, minibatch):
             for j in perm[i:i + minibatch]:
                 for k in range(len(episodes_dynamics[j])):
-                    total_dynamics.append(episodes_dynamics[j][k])
+                    target_dynamics.append(episodes_dynamics[j][k])
                     target_sactions.append(episodes_sactions[j][k])
-            target_dynamics = np.array(total_dynamics)
-            target_sactions = np.array(target_sactions)
-        for value_train_times in range(traintime):
-            summary = self.dynamic_model.learn(target_sactions, target_dynamics)
-            self.summary_writer.add_summary(summary=summary, global_step=self.global_step)
+            for value_train_times in range(traintime):
+                summary = self.dynamic_model.learn(np.array(target_sactions), np.array(target_dynamics))
+                self.summary_writer.add_summary(summary=summary, global_step=self.global_step)
+            target_sactions = []
+            target_dynamics = []
 # --------------------- different algorithms ---------
     def dypi2(self, initial_state, iteration_times=5):
         current_best_action = None
