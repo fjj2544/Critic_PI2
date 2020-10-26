@@ -21,10 +21,11 @@ from tools.plot_data import mkdir
 TIMESTAMP = "{0:%Y-%m-%dT%H-%M-%S}".format(datetime.now())
 # ENV_NAME = "InvertedDoublePendulum-v1"
 # ENV_NAME = "InvertedPendulum-v1"
-ENV_NAME = "InvertedDoublePendulum-v1" # todo
+# ENV_NAME = "InvertedDoublePendulum-v1" # todo
 # ENV_NAME = "Walker2d-v1"
+ENV_NAME = "Pendulum-v0"
 TRAIN_FROM_SCRATCH = True # 是否加载模型
-MAX_EP_STEPS = 500  # 每条采样轨迹的最大长度
+MAX_EP_STEPS = 10  # 每条采样轨迹的最大长度
 LR_A = 0.001  # learning rate for actor
 LR_C = 0.002  # learning rate for critic
 GAMMA = 0.99
@@ -359,7 +360,7 @@ class PI2_Critic(object):
         data_number = len(episodes_dynamics)
         perm = np.random.permutation(data_number)
         # Using BGD
-        minibatch = 32  # 轨迹的数量
+        minibatch = min(data_number,128)  # 轨迹的数量
         target_sactions = []
         target_dynamics = []
         for i in range(0, data_number, minibatch):
@@ -367,8 +368,8 @@ class PI2_Critic(object):
                 for k in range(len(episodes_dynamics[j])):
                     target_dynamics.append(episodes_dynamics[j][k])
                     target_sactions.append(episodes_sactions[j][k])
-            for value_train_times in range(traintime):
-                summary = self.dynamic_model.learn(np.array(target_sactions), np.array(target_dynamics))
+                summary = self.dynamic_model.learn(np.array(target_sactions), np.array(target_dynamics),
+                                                   EPOCH=traintime)
                 self.summary_writer.add_summary(summary=summary, global_step=self.global_step)
             target_sactions = []
             target_dynamics = []
@@ -440,6 +441,7 @@ class PI2_Critic(object):
                 current_best_value = copy.deepcopy(current_value)
                 current_best_action = copy.deepcopy(current_action)
             initial_action = hybrid_action
+        current_best_action = np.reshape(current_best_action,[self.a_dim])
         return current_best_action
     def test(self,test_time=3,if_render=False):
         """

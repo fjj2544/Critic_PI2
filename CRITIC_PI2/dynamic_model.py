@@ -1,8 +1,8 @@
 import tensorflow as tf
 import numpy as np
-# from tools.Pendulum import reward_function
+from envs.Pendulum import reward_function,is_done
 # from envs.InvertedPendulum import reward_function,is_done
-from envs.InvertedDoublePendulum import reward_function,is_done
+# from envs.InvertedDoublePendulum import reward_function,is_done
 # from envs.Hopper import reward_function,is_done
 # from envs.Walker2d import reward_function,is_done
 tf.set_random_seed(1)
@@ -23,11 +23,11 @@ class Dynamic_Net():
         self.learning_rate = lr
         self.name = name
         self.batch = 32
-
+        # ------------build dataset-----
+        self.build_train_model()
         # -------------- Network --------------
         with tf.variable_scope(self.name):
             # ------------------------- MLP -------------------------
-            self.obs_action = tf.placeholder(tf.float32, shape=[None, self.n_features + self.n_actions])
             self.f1 = tf.layers.dense(inputs=self.obs_action, units=120, activation=tf.nn.relu,
                                       kernel_initializer=tf.random_normal_initializer(mean=0, stddev=0.1),
                                       bias_initializer=tf.constant_initializer(0.1),
@@ -41,8 +41,7 @@ class Dynamic_Net():
                                       bias_initializer=tf.constant_initializer(0.1),
                                       trainable=trainable)
             self.predict = tf.layers.dense(inputs=self.f3, units=self.n_features, trainable=trainable)
-        # -------------- Label --------------
-        self.delta = tf.placeholder(tf.float32, [None, self.n_features])
+
         # -------------- Loss --------------
         self.loss = tf.reduce_mean(tf.square(self.predict - self.delta))
         self.summary_dynamic_loss = tf.summary.scalar("Dynamic Loss",self.loss)
@@ -58,12 +57,24 @@ class Dynamic_Net():
         self.saver = tf.train.Saver(max_to_keep=10)
         if model_file is not None:
             self.restore_model(model_file)
-
+    def build_train_model(self):
+        with tf.name_scope("DataSet"):
+            self.total_obs_action = tf.placeholder(dtype=tf.float32, shape=[None, self.n_features + self.n_actions], name="input_data")  # 输入为1
+            self.total_delta = tf.placeholder(dtype=tf.float32, shape=[None, self.n_features], name="real_output")  # 输出为1
+            # create dataloader
+            dataset = tf.data.Dataset.from_tensor_slices((self.total_obs_action, self.total_delta))
+            dataset = dataset.shuffle(buffer_size=1000)  # choose data randomly from this buffer
+            dataset = dataset.batch(32)  # batch size you will use
+            dataset = dataset.repeat(None)  # 数据集遍历多少次就会停止 None就是不管
+            self.iterator = dataset.make_initializable_iterator()  # later we have to initialize this one
+            self.obs_action, self.delta = self.iterator.get_next()
     # Learn the model
-    def learn(self, batch_obs_act, batch_dt):
-        summary, _ = self.sess.run([self.summary_dynamic_loss,
-                                 self.train_op], feed_dict={self.obs_action: batch_obs_act,
-                                                                       self.delta: batch_dt})
+    def learn(self, batch_obs_act, batch_dt,EPOCH=int(1e2)):
+        self.sess.run(self.iterator.initializer, feed_dict={self.total_obs_action: batch_obs_act,
+                                                            self.total_delta: batch_dt})
+        for epoch in range(EPOCH):
+            summary, _ = self.sess.run([self.summary_dynamic_loss,
+                                     self.train_op])
         return summary
 
     def prediction(self, s_a):
