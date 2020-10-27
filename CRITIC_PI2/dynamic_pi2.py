@@ -21,9 +21,10 @@ from tools.plot_data import mkdir
 TIMESTAMP = "{0:%Y-%m-%dT%H-%M-%S}".format(datetime.now())
 # ENV_NAME = "InvertedDoublePendulum-v1"
 # ENV_NAME = "InvertedPendulum-v1"
-ENV_NAME = "InvertedDoublePendulum-v1" # todo
+# ENV_NAME = "InvertedDoublePendulum-v1" # todo
 # ENV_NAME = "Walker2d-v1"
 # ENV_NAME = "Pendulum-v0"
+ENV_NAME = "Hopper-v1"
 TRAIN_FROM_SCRATCH = True # 是否加载模型
 MAX_EP_STEPS = 500  # 每条采样轨迹的最大长度
 LR_A = 0.001  # learning rate for actor
@@ -360,7 +361,7 @@ class PI2_Critic(object):
         data_number = len(episodes_dynamics)
         perm = np.random.permutation(data_number)
         # Using BGD
-        minibatch = min(data_number,128)  # 轨迹的数量
+        minibatch = data_number  # 轨迹的数量
         target_sactions = []
         target_dynamics = []
         for i in range(0, data_number, minibatch):
@@ -368,9 +369,9 @@ class PI2_Critic(object):
                 for k in range(len(episodes_dynamics[j])):
                     target_dynamics.append(episodes_dynamics[j][k])
                     target_sactions.append(episodes_sactions[j][k])
-                summary = self.dynamic_model.learn(np.array(target_sactions), np.array(target_dynamics),
-                                                   EPOCH=traintime)
-                self.summary_writer.add_summary(summary=summary, global_step=self.global_step)
+            summary = self.dynamic_model.learn(np.array(target_sactions), np.array(target_dynamics),
+                                               EPOCH=traintime)
+            self.summary_writer.add_summary(summary=summary, global_step=self.global_step)
             target_sactions = []
             target_dynamics = []
 # --------------------- different algorithms ---------
@@ -396,12 +397,11 @@ class PI2_Critic(object):
                 s_a[0][s_dim: s_dim + a_dim] = action_groups[j]
                 s_a = s_a.reshape([-1, s_dim + a_dim])
                 temp_next_state, temp_reward, done = self.dynamic_model.prediction(s_a)
-                dones.append(done)
+                dones.append(done[0])
                 next_stages.append(temp_next_state)
                 rewards.append(temp_reward)
             state_groups = np.array(next_stages)
             rewards = np.array(rewards)
-
             next_values_v = np.array(self.get_state_value(state_groups))
             next_values = next_values_v
             for v in range(len(next_values)):

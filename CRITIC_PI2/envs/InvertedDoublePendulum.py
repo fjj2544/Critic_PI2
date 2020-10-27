@@ -20,3 +20,6 @@ def is_done(s_, a):
     x = s_[:, 0] + 0.6 * np.sin(theta1) + 0.6 * np.sin(theta1 + theta2)
     done = (y <= 1)
     return done
+if __name__ == '__main__':
+    s_ = np.array([[1,np.inf,3,4,5,6],[1,np.inf,3,4,5,6]])
+    print(is_done(s_,1))

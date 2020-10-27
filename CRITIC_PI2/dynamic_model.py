@@ -2,8 +2,8 @@ import tensorflow as tf
 import numpy as np
 # from envs.Pendulum import reward_function,is_done
 # from envs.InvertedPendulum import reward_function,is_done
-from envs.InvertedDoublePendulum import reward_function,is_done
-# from envs.Hopper import reward_function,is_done
+# from envs.InvertedDoublePendulum import reward_function,is_done
+from envs.Hopper import reward_function,is_done
 # from envs.Walker2d import reward_function,is_done
 tf.set_random_seed(1)
 
@@ -72,6 +72,7 @@ class Dynamic_Net():
     def learn(self, batch_obs_act, batch_dt,EPOCH=int(1e2)):
         self.sess.run(self.iterator.initializer, feed_dict={self.total_obs_action: batch_obs_act,
                                                             self.total_delta: batch_dt})
+
         for epoch in range(EPOCH):
             summary, _ = self.sess.run([self.summary_dynamic_loss,
                                      self.train_op])

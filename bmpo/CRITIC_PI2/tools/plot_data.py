@@ -49,7 +49,7 @@ def plot_result(alpha_list,delta_z_list,theta_list,theta_desire_list,figure_numb
     for i in range(figure_number):
         plt.plot(alpha_list[i], label=label[i],color=color[i],linestyle=line_style[i],linewidth=linewidth)
     plt.legend(loc='best', prop={'family': 'Times New Roman', 'size': legend_font_size})
-    save_figure("./photo/exp1/", "alpha_Curve.pdf")
+    save_figure("./photo/exp1/", "InvertedDoublePendulum.pdf")
     plt.show()
     '''绘制delta_z曲线'''
     plt.figure(num=None, figsize=(2.8, 1.7), dpi=300)
