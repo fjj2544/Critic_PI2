@@ -15,4 +15,4 @@ def reward_function(s_, a):
     costs = angle_normalize(th)**2 + .1*thdot**2 +.001*(a**2)
     return -costs
 def is_done(s,a):
-    return False
+    return [False]

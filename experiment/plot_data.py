@@ -1,26 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
-ddpg_data = np.array(np.load("./InvertedDoublePendulum/ddpg_data.npy"))
-mpc_data = np.array(np.load("./InvertedDoublePendulum/mpc_data.npy"))
-cpi2_data = np.array(np.load("./InvertedDoublePendulum/reward_data.npy"))
-pi2_data = np.array(np.load("./InvertedDoublePendulum/tra_pi2_data.npy"))
-print(f"ddpg: {ddpg_data.shape}\n mpc: {mpc_data.shape} \n cpi2 {cpi2_data.shape}\n pi2 {pi2_data.shape}")
-data_list = []
-real_data = []
-data_list.append(cpi2_data[:250])
-data_list.append(mpc_data[:250])
-data_list.append(ddpg_data[:250])
-data_list.append(pi2_data[:250])
 
-
-label = ["Critic PI2","MPC","DDPG","PI2"]
-color = ["r","g","b","k"]
-# line_style = ["-","-.",":","--"]
-line_style = ["-","-","-","-"]
-linewidth = 1 # 绘图中曲线宽度
-fontsize = 5 # 绘图字体大小
-markersize = 2.5  # 标志中字体大小
-legend_font_size = 5 #图例中字体大小
 def mkdir(path):
     import os
     path = path.strip()
@@ -49,7 +29,28 @@ def plot_result(data_list # [algorithm_id,data,*]
     plt.legend(loc='best', prop={'family': 'Times New Roman', 'size': legend_font_size})
     save_figure("./photo/exp1/", "InvertedDoublePendulum.pdf")
     plt.show()
-plot_result(data_list,figure_number=4)
+if __name__ == '__main__':
+    ddpg_data = np.array(np.load("./InvertedDoublePendulum/ddpg_data.npy"))
+    mpc_data = np.array(np.load("./InvertedDoublePendulum/mpc_data.npy"))
+    cpi2_data = np.array(np.load("./InvertedDoublePendulum/reward_data.npy"))
+    pi2_data = np.array(np.load("./InvertedDoublePendulum/tra_pi2_data.npy"))
+    print(f"ddpg: {ddpg_data.shape}\n mpc: {mpc_data.shape} \n cpi2 {cpi2_data.shape}\n pi2 {pi2_data.shape}")
+    data_list = []
+    real_data = []
+    data_list.append(cpi2_data[:250])
+    data_list.append(mpc_data[:250])
+    data_list.append(ddpg_data[:250])
+    data_list.append(pi2_data[:250])
+
+    label = ["Critic PI2", "MPC", "DDPG", "PI2"]
+    color = ["r", "g", "b", "k"]
+    # line_style = ["-","-.",":","--"]
+    line_style = ["-", "-", "-", "-"]
+    linewidth = 1  # 绘图中曲线宽度
+    fontsize = 5  # 绘图字体大小
+    markersize = 2.5  # 标志中字体大小
+    legend_font_size = 5  # 图例中字体大小
+    plot_result(data_list,figure_number=4)
 
 # #--------------------------plot data with tensorboard--------------------------
 # import tensorflow as tf

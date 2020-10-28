@@ -4,12 +4,16 @@ import tensorflow as tf
 import time
 import matplotlib.pyplot as plt
 import pickle
+from datetime import datetime
+
 import copy
 ###DDPG for lower trust learning, example 1 DDPG###
 ###2020/5/10###
 #####################  hyper parameters  ######################
+TIMESTAMP = "{0:%Y-%m-%dT%H-%M-%S}".format(datetime.now())
+
 MAX_EPISODES = 2000
-MAX_EP_STEPS = 100
+MAX_EP_STEPS = 500
 LR_A = 0.001    # learning rate for actor
 LR_C = 0.002    # learning rate for critic
 GAMMA = 0.9     # reward discount
@@ -18,18 +22,21 @@ MEMORY_CAPACITY = 100000
 BATCH_SIZE = 32
 ROLL_OUTS = 20
 RENDER = False
-ENV_NAME = "InvertedDoublePendulum-v1"
+# ENV_NAME = "InvertedDoublePendulum-v1"
+ENV_NAME = "InvertedPendulum-v1"
+
+Algorithm_Name = "DDPG"
 PI2_coefficient = 30
 ###############################  DDPG  #################################
 class DDPG(object):
-    def __init__(self, a_dim, s_dim, a_bound):
+    def __init__(self, a_dim, s_dim, a_bound,sess):
         self.memory = np.zeros((MEMORY_CAPACITY, s_dim+s_dim+a_dim+1), dtype=np.float32)
         self.dynamic_memory = np.zeros((MEMORY_CAPACITY, s_dim+s_dim+a_dim), dtype=np.float32)
         # 1(the last dimension) for reward
         self.pointer = 0
         self.dynamic_pointer = 0
         self.dynamic_memory_len = 0
-        self.sess = tf.Session()
+        self.sess = sess
         self.a_dim, self.s_dim, self.a_bound = a_dim, s_dim, a_bound,
         self.S = tf.placeholder(tf.float32, [None, s_dim], 's')
         self.S_ = tf.placeholder(tf.float32, [None, s_dim], 's_')
@@ -149,10 +156,11 @@ class DDPG(object):
 
 
 
-
-
 ###############################  training  ####################################
-
+summary_writer = tf.summary.FileWriter(f"./log/{Algorithm_Name}/{ENV_NAME}/{TIMESTAMP}/")
+reward_tensor = tf.placeholder(tf.float32)
+reward_summary = tf.summary.scalar("reward",reward_tensor)
+sess = tf.Session()
 env = gym.make(ENV_NAME)
 env = env.unwrapped
 env.seed(1)
@@ -160,69 +168,48 @@ s_dim = env.observation_space.shape[0]
 a_dim = env.action_space.shape[0]
 a_bound = env.action_space.high.shape
 print("action bound is", a_bound)
-ddpg = DDPG(a_dim, s_dim, a_bound)
+ddpg = DDPG(a_dim, s_dim, a_bound,sess)
 ################################
 var = 3  # control exploration
 train_time = 100
 rewards = []
 for episode in range(MAX_EPISODES):
+    print("-----------train----------------")
     s = env.reset()
     ep_reward = 0
     for j in range(MAX_EP_STEPS):
-        if ddpg.generate_sample_from_outside_buffer == False:
-            if RENDER:
-                env.render()
-        # Add exploration noise
-            a = ddpg.choose_action(s)
-            a = np.clip(np.random.normal(a, var), -1, 1)    # add randomness to action selection for exploration
-            s_, r, done, info = env.step(a)
-            ddpg.store_transition(s, a, r , s_)
-            if done:
-                break
-##################取消buffer不满不训练###############
+        a = ddpg.choose_action(s)
+        a = np.clip(np.random.normal(a, var), -1, 1)    # add randomness to action selection for exploration
+        s_, r, done, info = env.step(a)
+        ddpg.store_transition(s, a, r , s_)
+        print(f"Current step:{j}")
+        if done:
+            print('Episode:', episode, ' Reward: %i' % int(ep_reward), 'Explore: %.2f' % var)
+            break
         s = s_
         ep_reward += r
         if j == MAX_EP_STEPS-1:
-            print('Episode:', episode, ' Reward: %i' % int(ep_reward), 'Explore: %.2f' % var, )
-            # if ep_reward > -300:RENDER = True
+            print('Episode:', episode, ' Reward: %i' % int(ep_reward), 'Explore: %.2f' % var )
             break
-    if True:
-        if var >= 0.1:
-            var *= .9999  # decay the action randomness
-        for i in range(train_time):
-            ddpg.learn()
-
-#############test###########
-    if (episode+1) % 2 == 0:
-      total_reward = 0
-      testtime=3
-      for i in range(testtime):
-        this_reward = 0
-        state = env.reset()
-        for j in range(MAX_EP_STEPS):
-          env.render()
-          action = ddpg.choose_action(state) # direct action for test
-          state, reward, done,_ = env.step(action)
-          total_reward += reward
-          this_reward += reward
-          if done:
+    if var >= 0.1:
+        var *= .9999  # decay the action randomness
+    for i in range(train_time):
+        ddpg.learn()
+    print("-----------test----------------")
+    s = env.reset()
+    ep_reward = 0
+    for j in range(MAX_EP_STEPS):
+        a = ddpg.choose_action(s)
+        a = np.clip(a, -1, 1)  # add randomness to action selection for exploration
+        s_, r, done, info = env.step(a)
+        print(f"Current step:{j}")
+        if done:
+            print('Episode:', episode, ' Reward: %i' % int(ep_reward), 'Explore: %.2f' % var)
             break
-        print("ddpg reward:", this_reward)
-      ave_reward = total_reward/testtime
-      print ('episode: ',episode,'Evaluation Average Reward:',ave_reward)
-      rewards.append(ave_reward)
-#############end test#############
-    if (episode+1) % 20 == 0:
-        try:
-
-            plt.plot(rewards, label='ddpg')
-            with open('./ddpg1023/ddpg_data', 'wb') as f:
-                pickle.dump(rewards, f, pickle.HIGHEST_PROTOCOL)
-            plt.xlabel('every 2 new trajectories with env', fontsize=16)
-            plt.ylabel('scores', fontsize=16)
-            plt.legend()
-            plt.savefig('./ddpg1023/ddpg.png')
-            plt.clf()
-            print('plot save successed')
-        except:
-            print('figure save failed')
+        s = s_
+        ep_reward += r
+        if j == MAX_EP_STEPS - 1:
+            print('Episode:', episode, ' Reward: %i' % int(ep_reward), 'Explore: %.2f' % var)
+            break
+    summary = sess.run(reward_summary,feed_dict={reward_tensor:ep_reward})
+    summary_writer.add_summary(summary,global_step=episode)

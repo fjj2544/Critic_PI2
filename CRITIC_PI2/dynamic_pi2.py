@@ -20,11 +20,11 @@ from tools.plot_data import mkdir
 #####################  hyper parameters  ######################
 TIMESTAMP = "{0:%Y-%m-%dT%H-%M-%S}".format(datetime.now())
 # ENV_NAME = "InvertedDoublePendulum-v1"
-# ENV_NAME = "InvertedPendulum-v1"
+ENV_NAME = "InvertedPendulum-v1"
 # ENV_NAME = "InvertedDoublePendulum-v1" # todo
 # ENV_NAME = "Walker2d-v1"
 # ENV_NAME = "Pendulum-v0"
-ENV_NAME = "Hopper-v1"
+# ENV_NAME = "Hopper-v1"
 TRAIN_FROM_SCRATCH = True # 是否加载模型
 MAX_EP_STEPS = 500  # 每条采样轨迹的最大长度
 LR_A = 0.001  # learning rate for actor
@@ -404,9 +404,7 @@ class PI2_Critic(object):
             rewards = np.array(rewards)
             next_values_v = np.array(self.get_state_value(state_groups))
             next_values = next_values_v
-            for v in range(len(next_values)):
-                if dones[v]:
-                    next_values[v] = 0
+
             values = rewards.reshape([ROLL_OUTS, 1]) + next_values
             probability_weighting = np.zeros((ROLL_OUTS, 1), dtype=np.float64)
             exponential_value_loss = np.zeros((ROLL_OUTS, 1), dtype=np.float64)
@@ -424,10 +422,10 @@ class PI2_Critic(object):
             s_a[0][:s_dim] = initial_state
             s_a[0][s_dim: s_dim + a_dim] = hybrid_action
             temp_next_state, temp_reward, done = self.dynamic_model.prediction(s_a)
-            if not done:
-                next_values_v = self.get_state_value(np.array(temp_next_state).reshape([1, self.s_dim]))
-            else:
-                next_values_v = 0
+            # if not done:
+            next_values_v = self.get_state_value(np.array(temp_next_state).reshape([1, self.s_dim]))
+            # else:
+            #     next_values_v = 0
             next_values = next_values_v
 
             hybrid_value = temp_reward + next_values
