@@ -7,9 +7,6 @@ import pickle
 from tools.env_copy import copy_env
 import matplotlib.pyplot as plt
 from dynamic_model import Dynamic_Net
-###2020/07/08###
-#####TODO: This problem is only used for offpolicy learning, once loaded the database file, it will not store episodes that created by its own.
-#####################  hyper parameters  ######################
 from Replay_Buffer import Replay_buffer
 
 TRAIN_FROM_SCRATCH = True # 是否加载模型
@@ -365,28 +362,5 @@ s = env.reset()
 pi2_critic = PI2_Critic(a_dim, s_dim, a_bound, env)
 
 normal_rewards = []
-for i in range(50000):
+for i in range(epoch):
     pi2_critic.learn()
-    if (i+1) % 1== 0:
-        print('======================start testing=========================')
-        r,t = pi2_critic.test(use_vtrace=True)
-        print('==========PI2_Critic ', r,' steps',t,'=============')
-        normal_rewards.append(r)
-    if (i+1)%10 == 0:
-        try:
-            print('total interactions:', pi2_critic.buffer.get_total_interactions(), 'total trajectories:',
-                  pi2_critic.buffer.get_length())
-            pi2_critic.save_model()
-            pi2_critic.buffer.save_data(model_path='./mpc1023/buffer_data')
-            print('data saved successfully')
-            plt.plot(normal_rewards, label='MPC')
-            with open('./mpc1023/mpc_data', 'wb') as f:
-                pickle.dump(normal_rewards, f, pickle.HIGHEST_PROTOCOL)
-            plt.xlabel('every 2 new trajectories with env', fontsize=16)
-            plt.ylabel('scores', fontsize=16)
-            plt.legend()
-            plt.savefig('./mpc1023/mpc.png')
-            plt.clf()
-            print('plot save successed')
-        except:
-            print('figure save failed')

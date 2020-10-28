@@ -378,10 +378,8 @@ class PI2_Critic(object):
     def dypi2(self, initial_state, iteration_times=5):
         current_best_action = None
         current_best_value = -np.inf
-
         initial_action = self.sample_action(
             initial_state.reshape([-1, s_dim]))
-
         for i in range(iteration_times):
             sigma = np.ones([ROLL_OUTS, self.a_dim])
             sigma[0] = np.zeros_like(sigma[0])
@@ -443,6 +441,11 @@ class PI2_Critic(object):
             initial_action = hybrid_action
         current_best_action = np.reshape(current_best_action,[self.a_dim])
         return current_best_action
+    # 用dynamics
+    def mpc_controller(self,initial_state,horizon=20):
+        pass
+    def traditional_pi2(self,initial_state,horizon=20,iteration_times=5):
+        pass
     def test(self,test_time=3,if_render=False):
         """
         测试当前agent的performance！

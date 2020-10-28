@@ -7,9 +7,6 @@ import pickle
 from tools.env_copy import copy_env
 import matplotlib.pyplot as plt
 from dynamic_model import Dynamic_Net
-###2020/07/08###
-#####TODO: This problem is only used for offpolicy learning, once loaded the database file, it will not store episodes that created by its own.
-#####################  hyper parameters  ######################
 from Replay_Buffer import Replay_buffer
 
 TRAIN_FROM_SCRATCH = True  # 是否加载模型
@@ -209,7 +206,6 @@ class PI2_Critic(object):
                                     bias_initializer=tf.constant_initializer(0.1),
                                     trainable=trainable)
             return tf.layers.dense(net_2, 1, trainable=trainable)  # Q(s,a)
-
     def compute_vtrace_target(self, states, val_t, rewards, probs, actions):
         path_len = len(states)
         vtrace_target = np.zeros(path_len)
@@ -229,7 +225,6 @@ class PI2_Critic(object):
             # curr_v = GAMMA * weight * (curr_r + next_v) + (1 - GAMMA * weight) * val_t[i]
             vtrace_target[i] = curr_v
         return vtrace_target
-
     def sample_data(self, episodes):
         vtrace_values = []
         td_values = []
@@ -251,8 +246,6 @@ class PI2_Critic(object):
             episodes_actions.append(actions)
             episodes_probs.append(probs)
         return episodes_states, vtrace_values, updated_vtrace_values, episodes_actions
-
-
     def actor_training(self, n_sample_size=SAMPLE_SIZE, traintime=ACTOR_TRAIN_TIME):
 
         minibatch = self.minibatch
@@ -285,17 +278,12 @@ class PI2_Critic(object):
                 print("aloss is ", aloss)
             self.alosses.append(aloss)
         return aloss
-
-
     def update(self, update_type=2):
         self.actor_training()
-
     def learn(self):
         # 采样+学习
-
         self.rollout_train(num_episodes=self.num_episodes, max_length=MAX_EP_STEPS)
         self.update()
-
     def test(self, test_time=3, use_vtrace=False):
         # 测试，use_hybrid_action表示是否使用PI2动作
 
@@ -415,31 +403,5 @@ pi2_critic = PI2_Critic(a_dim, s_dim, a_bound, env)
 
 normal_rewards = []
 
-# for i in range(10):
-#     pi2_critic.learn()
-# print('Pretraining Finishied')
-for i in range(50000):
+for i in range(epoch):
     pi2_critic.learn()
-    if (i + 1) % 1 == 0:
-        print('======================start testing=========================')
-        r, t = pi2_critic.test(use_vtrace=True)
-        print('==========PI2_Critic ', r, ' steps', t, '=============')
-        normal_rewards.append(r)
-
-    if (i + 1) % 5 == 0:
-        try:
-            pi2_critic.save_model()
-            pi2_critic.buffer.save_data(model_path='./tra_pi2/buffer_data')
-            print('data saved successfully')
-            plt.plot(normal_rewards, label='Traditional_PI2')
-
-            with open('./tra_pi2/tra_pi2_data', 'wb') as f:
-                pickle.dump(normal_rewards, f, pickle.HIGHEST_PROTOCOL)
-            plt.xlabel('every 102 new trajectories with env', fontsize=16)
-            plt.ylabel('scores', fontsize=16)
-            plt.legend()
-            plt.savefig('./tra_pi2/tra_pi2.png')
-            plt.clf()
-            print('save successed')
-        except:
-            print('figure save failed')
