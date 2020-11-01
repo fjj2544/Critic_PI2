@@ -2,20 +2,58 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f0f12305-0a77-4f69-a3da-d10a905ab27a" name="默认" comment="">
-      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/Algorithms/dynamic_pi2_low_variance.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/Algorithms/dynamic_pi2_no_acotor.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/tools/add_text.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/tools/combine_video.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/tools/jihuohanshu.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/experiment/data/numpy/smoothed/ablation_data/CPI2.npy" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/experiment/plot_data_experiment2.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/buffer_data/109" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/buffer_data/119" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/buffer_data/129" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/buffer_data/139" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/buffer_data/149" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/buffer_data/159" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/buffer_data/169" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/buffer_data/179" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/buffer_data/189" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/buffer_data/19" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/buffer_data/199" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/buffer_data/209" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/buffer_data/219" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/buffer_data/229" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/buffer_data/239" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/buffer_data/249" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/buffer_data/259" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/buffer_data/269" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/buffer_data/279" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/buffer_data/289" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/buffer_data/29" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/buffer_data/299" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/buffer_data/309" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/buffer_data/319" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/buffer_data/329" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/buffer_data/339" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/buffer_data/349" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/buffer_data/39" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/buffer_data/49" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/buffer_data/59" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/buffer_data/69" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/buffer_data/79" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/buffer_data/89" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/buffer_data/9" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/buffer_data/99" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/model/309.data-00000-of-00001" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/model/309.index" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/model/309.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/model/319.data-00000-of-00001" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/model/319.index" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/model/319.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/model/329.data-00000-of-00001" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/model/329.index" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/model/329.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/model/339.data-00000-of-00001" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/model/339.index" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/model/339.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/model/349.data-00000-of-00001" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/model/349.index" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/model/349.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CRITIC_PI2/offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/model/checkpoint" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRITIC_PI2/Algorithms/MPC.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRITIC_PI2/Algorithms/MPC.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRITIC_PI2/Algorithms/ddpg.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRITIC_PI2/Algorithms/ddpg.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRITIC_PI2/dynamic_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRITIC_PI2/dynamic_model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CRITIC_PI2/dynamic_pi2.py" beforeDir="false" afterPath="$PROJECT_DIR$/CRITIC_PI2/dynamic_pi2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/experiment/csv_smoothed_numpy.py" beforeDir="false" afterPath="$PROJECT_DIR$/experiment/csv_smoothed_numpy.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/experiment/plot_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/experiment/plot_data.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -66,8 +104,8 @@
       <file leaf-file-name="dynamic_pi2.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Critic_PI2/dynamic_pi2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="143">
-              <caret line="457" column="24" lean-forward="true" selection-start-line="457" selection-start-column="24" selection-end-line="457" selection-end-column="24" />
+            <state relative-caret-position="67">
+              <caret line="474" lean-forward="true" selection-start-line="474" selection-end-line="474" />
               <folding>
                 <element signature="e#95#113#0" expanded="true" />
               </folding>
@@ -189,19 +227,6 @@
               <item name="ICRA" type="b2602c69:ProjectViewProjectNode" />
               <item name="ICRA" type="462c0819:PsiDirectoryNode" />
               <item name="Critic_PI2" type="462c0819:PsiDirectoryNode" />
-              <item name="Algorithms" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ICRA" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ICRA" type="462c0819:PsiDirectoryNode" />
-              <item name="Critic_PI2" type="462c0819:PsiDirectoryNode" />
-              <item name="Algorithms" type="462c0819:PsiDirectoryNode" />
-              <item name="offline_data" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ICRA" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ICRA" type="462c0819:PsiDirectoryNode" />
-              <item name="Critic_PI2" type="462c0819:PsiDirectoryNode" />
               <item name="offline_data" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -210,23 +235,6 @@
               <item name="Critic_PI2" type="462c0819:PsiDirectoryNode" />
               <item name="offline_data" type="462c0819:PsiDirectoryNode" />
               <item name="InvertedDoublePendulum-v1" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ICRA" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ICRA" type="462c0819:PsiDirectoryNode" />
-              <item name="Critic_PI2" type="462c0819:PsiDirectoryNode" />
-              <item name="offline_data" type="462c0819:PsiDirectoryNode" />
-              <item name="InvertedDoublePendulum-v1" type="462c0819:PsiDirectoryNode" />
-              <item name="2020-10-29T19-23-04" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ICRA" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ICRA" type="462c0819:PsiDirectoryNode" />
-              <item name="Critic_PI2" type="462c0819:PsiDirectoryNode" />
-              <item name="offline_data" type="462c0819:PsiDirectoryNode" />
-              <item name="InvertedDoublePendulum-v1" type="462c0819:PsiDirectoryNode" />
-              <item name="2020-10-29T19-23-04" type="462c0819:PsiDirectoryNode" />
-              <item name="model" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="ICRA" type="b2602c69:ProjectViewProjectNode" />
@@ -471,7 +479,14 @@
       <option name="project" value="LOCAL" />
       <updated>1603877083416</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="全部代码上传">
+      <created>1604239393875</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1604239393875</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TodoView">
@@ -497,7 +512,7 @@
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24128686" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="4" weight="0.32908848" />
-      <window_info anchor="right" id="SciView" order="3" visible="true" weight="0.15817694" />
+      <window_info anchor="right" id="SciView" order="3" visible="true" weight="0.0" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -522,7 +537,8 @@
     <MESSAGE value="第一跑长期试验，双倒立摆" />
     <MESSAGE value="加入绘制图片相关的信息" />
     <MESSAGE value="实验做完了" />
-    <option name="LAST_COMMIT_MESSAGE" value="实验做完了" />
+    <MESSAGE value="全部代码上传" />
+    <option name="LAST_COMMIT_MESSAGE" value="全部代码上传" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -884,8 +900,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Critic_PI2/dynamic_pi2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="143">
-          <caret line="457" column="24" lean-forward="true" selection-start-line="457" selection-start-column="24" selection-end-line="457" selection-end-column="24" />
+        <state relative-caret-position="67">
+          <caret line="474" lean-forward="true" selection-start-line="474" selection-end-line="474" />
           <folding>
             <element signature="e#95#113#0" expanded="true" />
           </folding>
