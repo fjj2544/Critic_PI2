@@ -1,14 +1,20 @@
+'''
+todo：
+1. v_loss 很大，感觉是不是需要归一化以下
+2. sigma 如果不降低是不是不太好(为什么方差会很大)
+3. 我希望actor能够更新,方差能够自己学
+'''
 import numpy as np
 import gym
 import tensorflow as tf
 import time
-import matplotlib.pyplot as plt
-import pickle
 import copy
 from tools.env_copy import copy_env
 from dynamic_model import Dynamic_Net
 from Replay_Buffer import Replay_buffer
 from datetime import datetime
+import matplotlib.pyplot as plt
+import pickle
 import tensorflow_probability as tfp
 from tools.plot_data import mkdir
 #####################  hyper parameters  ######################
@@ -19,12 +25,12 @@ ENV_NAME = "InvertedDoublePendulum-v1"
 # ENV_NAME = "Walker2d-v1"
 # ENV_NAME = "Pendulum-v0"
 # ENV_NAME = "Hopper-v1"
-Algorithm_Name = "MPC"
 TRAIN_FROM_SCRATCH = True # 是否加载模型
 MAX_EP_STEPS = 500  # 每条采样轨迹的最大长度
 LR_A = 0.001  # learning rate for actor
 LR_C = 0.002  # learning rate for critic
 GAMMA = 0.99
+VARINANCE =0.1
 
 VALUE_TRAIN_TIME = 100
 ACTOR_TRAIN_TIME = 100
@@ -47,7 +53,7 @@ class PI2_Critic(object):
         config.gpu_options.per_process_gpu_memory_fraction = 0.5  # 程序最多只能占用指定gpu50%的显存
         config.gpu_options.allow_growth = True  # 程序按需申请内存
         self.sess = tf.Session(config=config)
-        self.summary_writer = tf.summary.FileWriter(f"./log/{Algorithm_Name}/{ENV_NAME}/{TIMESTAMP}/")
+        self.summary_writer = tf.summary.FileWriter(f"./log/{ENV_NAME}/{TIMESTAMP}/")
         self.dynamic_model = Dynamic_Net(s_dim, a_dim,'dm',sess=self.sess)
         if buffer is not  None:
             self.buffer = buffer
@@ -99,8 +105,13 @@ class PI2_Critic(object):
             a_mu = a_bound * tf.layers.dense(inputs=a_f1, units=self.a_dim, activation=tf.nn.tanh,
                                              trainable=trainable)
             # 1.3 第二层，标准差
-            a_sigma = tf.eye(self.a_dim)
+            # a_sigma = tf.layers.dense(inputs=a_f1, units=self.a_dim*self.a_dim, activation=tf.nn.tanh,
+            #                                  trainable=trainable)
+            # a_sigma = tf.reshape(a_sigma,shape=[-1,self.a_dim,self.a_dim])
+            a_sigma = tf.eye(self.a_dim)*tf.constant(VARINANCE,tf.float32)
             normal_dist = tfp.distributions.MultivariateNormalTriL(loc=a_mu,scale_tril=a_sigma)
+            # tf.contrib.distributions.MultivariateNormal
+            # normal_dist = tf.contrib.distributions.Normal(a_mu, a_sigma)
             # 根据正态分布采样一个动作
         return normal_dist, a_mu
     def _build_c(self, s, scope, trainable):
@@ -181,7 +192,7 @@ class PI2_Critic(object):
         t = 0
         path = []
         while not done and t < max_steps_per_episodes:
-            act = self.MPC(initial_start=obs)
+            act = self.dypi2(initial_state=obs)
             new_obs, r, done, _ = self.env.step(act)
             prob = self.get_probability(obs.reshape([-1, s_dim]), act.reshape([-1, a_dim]))
             temp_transition = np.hstack((obs, act, [r], new_obs, prob[0]))
@@ -264,6 +275,7 @@ class PI2_Critic(object):
             self.train_actor_network()
         elif update_type == 2:
             self.train_dynamic_network()
+            self.train_critic_network()
         elif update_type==3:
             self.train_actor_network()
     def train(self, update_type = 1):
@@ -365,42 +377,100 @@ class PI2_Critic(object):
             target_sactions = []
             target_dynamics = []
 # --------------------- different algorithms ---------
-    def MPC(self, initial_start,horizon=10):
-        initial_action = self.sample_action(initial_start.reshape(
-                [-1, self.s_dim]))  # initial action is supposed to be [action_dim,] narray object
-        sigma = np.ones([(ROLL_OUTS + 1) , self.a_dim])
-        sigma[0] = np.zeros_like(sigma[0])
-        action_groups = np.squeeze(
-            np.clip(np.random.normal(initial_action, sigma), -self.a_bound[0], self.a_bound[0]))
-        action_groups = action_groups.reshape((ROLL_OUTS + 1) , self.a_dim)
-        rewards = np.zeros([len(action_groups)])
+    def dypi2(self, initial_state, iteration_times=5):
+        current_best_action = None
+        current_best_value = -np.inf
 
-        for j in range(len(action_groups)):
-            r = 0
-            a = copy.deepcopy(action_groups[j][0])
-            s_a = np.zeros([1, self.s_dim + self.a_dim])
-            s_a[0][:self.s_dim] = initial_start
-            s_a[0][self.s_dim: self.s_dim + self.a_dim] = a
-            temp_next_state, temp_reward, done = self.dynamic_model.prediction(s_a)
-            r += temp_reward
-            timer = 0
+        initial_action = self.sample_action(
+            initial_state.reshape([-1, s_dim]))
 
-            while not done[0] and timer < horizon:
-                a = self.sample_action(temp_next_state.reshape([-1, self.s_dim]))
-                timer += 1
-                s_a = np.zeros([1, self.s_dim + self.a_dim])
-                s_a[0][:self.s_dim] = temp_next_state
-                s_a[0][self.s_dim: self.s_dim + self.a_dim] = a
+        for i in range(iteration_times):
+            sigma = np.ones([ROLL_OUTS, self.a_dim])*VARINANCE
+            sigma[0] = np.zeros_like(sigma[0])
+            action_groups = np.squeeze(
+                np.clip(np.random.normal(loc=initial_action,scale=sigma), -self.a_bound[0], self.a_bound[0]))
+            action_groups = action_groups.reshape(ROLL_OUTS, self.a_dim)
+            next_stages = []
+            rewards = []
+            dones = []
+            for j in range(len(action_groups)):
+                s_a = np.zeros([1, s_dim + a_dim])
+                s_a[0][:s_dim] = initial_state
+                s_a[0][s_dim: s_dim + a_dim] = action_groups[j]
+                s_a = s_a.reshape([-1, s_dim + a_dim])
                 temp_next_state, temp_reward, done = self.dynamic_model.prediction(s_a)
-                r += temp_reward
-            rewards[j] = r
-        values = rewards.reshape([(ROLL_OUTS + 1) , 1])
-        maxv = np.max(values, axis=0)
-        best_action = action_groups[np.argmax(values)]
+                dones.append(done[0])
+                next_stages.append(temp_next_state)
+                rewards.append(temp_reward)
+            state_groups = np.array(next_stages)
+            rewards = np.array(rewards)
+            next_values_v = np.array(self.get_state_value(state_groups))
+            next_values = next_values_v
 
-        return best_action
+            values = rewards.reshape([ROLL_OUTS, 1]) + next_values
+            probability_weighting = np.zeros((ROLL_OUTS, 1), dtype=np.float64)
+            exponential_value_loss = np.zeros((ROLL_OUTS, 1), dtype=np.float64)
+            maxv = np.max(values, axis=0)
+            minv = np.min(values, axis=0)
+            if (maxv - minv) < 1e-4:
+                probability_weighting[:] = 1.0 / ROLL_OUTS
+            else:
+                for k in range(exponential_value_loss.shape[0]):
+                    res = (maxv - values[k]) / (maxv - minv)
+                    exponential_value_loss[k] = res
+                probability_weighting[:] = exponential_value_loss[:] / np.sum(exponential_value_loss)  # 计算soft_max概率
+            hybrid_action = np.squeeze(np.dot(action_groups.T, probability_weighting)) # 去掉多余维度
+            s_a = np.zeros([1, s_dim + a_dim])
+            s_a[0][:s_dim] = initial_state
+            s_a[0][s_dim: s_dim + a_dim] = hybrid_action
+            temp_next_state, temp_reward, done = self.dynamic_model.prediction(s_a)
+            # if not done:
+            next_values_v = self.get_state_value(np.array(temp_next_state).reshape([1, self.s_dim]))
+            # else:
+            #     next_values_v = 0
+            next_values = next_values_v
+
+            hybrid_value = temp_reward + next_values
+            if hybrid_value >= maxv:
+                current_action = hybrid_action
+                current_value = hybrid_value
+            else:
+                current_action = action_groups[np.argmax(values)]
+                current_value = maxv
+            if current_best_value < current_value:
+                current_best_value = copy.deepcopy(current_value)
+                current_best_action = copy.deepcopy(current_action)
+            initial_action = hybrid_action
+        current_best_action = np.reshape(current_best_action,[self.a_dim])
+        return current_best_action
+    def test(self,test_time=3,if_render=False):
+        """
+        测试当前agent的performance！
+        """
+        print(f"start test for {test_time} episodes using ")
+        ave_reward = 0
+        ave_time = 0
+        for i in range(test_time):
+            total_reward = 0
+            obs = self.env.reset()
+            done = False
+            t = 0
+            while (not done) and (t <= MAX_EP_STEPS):
+                act = self.dypi2(initial_state=obs)
+                new_obs, r, done, _ = self.env.step(act)
+                total_reward += r
+                t += 1
+                obs = new_obs
+                if if_render:
+                    self.env.render()
+                print(t)
+            ave_reward += total_reward
+            ave_time += t
+        ave_reward = ave_reward / test_time
+        ave_time = ave_time / test_time
+        return ave_reward, ave_time
+
 # ---------------------- plot data and result --------
-
 if __name__ == '__main__':
     # ---------------------------- env info ------------------------------
     env = gym.make(ENV_NAME)
@@ -415,6 +485,17 @@ if __name__ == '__main__':
     s = env.reset()
     pi2_critic = PI2_Critic(a_dim, s_dim, a_bound, env)
     normal_rewards = []
+    ############################TRAINING#########################
     print("============Start interact============")
     for epoch in range(epochs):
-        pi2_critic.train(update_type=2)
+        pi2_critic.train(update_type=1)
+        if (epoch + 1)%10 == 0:
+            try:
+                print("start save data")
+                pi2_critic.save_model(model_dir=f"./offline_data/{ENV_NAME}/{TIMESTAMP}/model/",model_name=f"{epoch}")
+                pi2_critic.buffer.save_data(model_dir=f'./offline_data/{ENV_NAME}/{TIMESTAMP}/buffer_data/',model_name=f"{epoch}")
+            except:
+                print('data or figure save failed')
+    # #############################TEST############################
+    # pi2_critic.restore_model(model_path="offline_data/2020-10-25T22-29-07/model/199")
+    # pi2_critic.test(test_time=1,if_render=True)

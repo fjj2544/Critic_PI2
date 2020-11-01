@@ -19,8 +19,8 @@ import tensorflow_probability as tfp
 from tools.plot_data import mkdir
 #####################  hyper parameters  ######################
 TIMESTAMP = "{0:%Y-%m-%dT%H-%M-%S}".format(datetime.now())
-# ENV_NAME = "InvertedDoublePendulum-v1"
-ENV_NAME = "InvertedPendulum-v1"
+ENV_NAME = "InvertedDoublePendulum-v1"
+# ENV_NAME = "InvertedPendulum-v1"
 # ENV_NAME = "InvertedDoublePendulum-v1" # todo
 # ENV_NAME = "Walker2d-v1"
 # ENV_NAME = "Pendulum-v0"
@@ -30,6 +30,7 @@ MAX_EP_STEPS = 500  # 每条采样轨迹的最大长度
 LR_A = 0.001  # learning rate for actor
 LR_C = 0.002  # learning rate for critic
 GAMMA = 0.99
+VARINANCE =1
 
 VALUE_TRAIN_TIME = 100
 ACTOR_TRAIN_TIME = 100
@@ -107,7 +108,7 @@ class PI2_Critic(object):
             # a_sigma = tf.layers.dense(inputs=a_f1, units=self.a_dim*self.a_dim, activation=tf.nn.tanh,
             #                                  trainable=trainable)
             # a_sigma = tf.reshape(a_sigma,shape=[-1,self.a_dim,self.a_dim])
-            a_sigma = tf.eye(self.a_dim)
+            a_sigma = tf.eye(self.a_dim)*tf.constant(VARINANCE,tf.float32)
             normal_dist = tfp.distributions.MultivariateNormalTriL(loc=a_mu,scale_tril=a_sigma)
             # tf.contrib.distributions.MultivariateNormal
             # normal_dist = tf.contrib.distributions.Normal(a_mu, a_sigma)
@@ -274,6 +275,7 @@ class PI2_Critic(object):
             self.train_actor_network()
         elif update_type == 2:
             self.train_dynamic_network()
+            self.train_critic_network()
         elif update_type==3:
             self.train_actor_network()
     def train(self, update_type = 1):
@@ -383,7 +385,7 @@ class PI2_Critic(object):
             initial_state.reshape([-1, s_dim]))
 
         for i in range(iteration_times):
-            sigma = np.ones([ROLL_OUTS, self.a_dim])
+            sigma = np.ones([ROLL_OUTS, self.a_dim])*VARINANCE
             sigma[0] = np.zeros_like(sigma[0])
             action_groups = np.squeeze(
                 np.clip(np.random.normal(loc=initial_action,scale=sigma), -self.a_bound[0], self.a_bound[0]))
@@ -451,6 +453,8 @@ class PI2_Critic(object):
         for i in range(test_time):
             total_reward = 0
             obs = self.env.reset()
+            self.env.render()
+            time.sleep(5)
             done = False
             t = 0
             while (not done) and (t <= MAX_EP_STEPS):
@@ -461,14 +465,15 @@ class PI2_Critic(object):
                 obs = new_obs
                 if if_render:
                     self.env.render()
+                # time.sleep(0.3)
                 print(t)
             ave_reward += total_reward
             ave_time += t
         ave_reward = ave_reward / test_time
         ave_time = ave_time / test_time
         return ave_reward, ave_time
-# ---------------------- plot data and result --------
 
+# ---------------------- plot data and result --------
 if __name__ == '__main__':
     # ---------------------------- env info ------------------------------
     env = gym.make(ENV_NAME)
@@ -482,20 +487,19 @@ if __name__ == '__main__':
     # --------------------------- interact info -------------------
     s = env.reset()
     pi2_critic = PI2_Critic(a_dim, s_dim, a_bound, env)
-    normal_rewards = []
-
-
+    # normal_rewards = []
     ############################TRAINING#########################
-    print("============Start interact============")
-    for epoch in range(epochs):
-        pi2_critic.train(update_type=1)
-        if (epoch + 1)%10 == 0:
-            try:
-                print("start save data")
-                pi2_critic.save_model(model_dir=f"./offline_data/{ENV_NAME}/{TIMESTAMP}/model/",model_name=f"{epoch}")
-                pi2_critic.buffer.save_data(model_dir=f'./offline_data/{ENV_NAME}/{TIMESTAMP}/buffer_data/',model_name=f"{epoch}")
-            except:
-                print('data or figure save failed')
+    # print("============Start interact============")
+    # for epoch in range(epochs):
+    #     pi2_critic.train(update_type=1)
+    #     if (epoch + 1)%10 == 0:
+    #         try:
+    #             print("start save data")
+    #             pi2_critic.save_model(model_dir=f"./offline_data/{ENV_NAME}/{TIMESTAMP}/model/",model_name=f"{epoch}")
+    #             pi2_critic.buffer.save_data(model_dir=f'./offline_data/{ENV_NAME}/{TIMESTAMP}/buffer_data/',model_name=f"{epoch}")
+    #         except:
+    #             print('data or figure save failed')
     # #############################TEST############################
-    # pi2_critic.restore_model(model_path="offline_data/2020-10-25T22-29-07/model/199")
-    # pi2_critic.test(test_time=1,if_render=True)
+
+    pi2_critic.restore_model(model_path="offline_data/InvertedDoublePendulum-v1/2020-10-29T19-23-04/model/349")
+    pi2_critic.test(test_time=1,if_render=True)

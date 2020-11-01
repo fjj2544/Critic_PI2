@@ -22,8 +22,8 @@ MEMORY_CAPACITY = 100000
 BATCH_SIZE = 32
 ROLL_OUTS = 20
 RENDER = False
-# ENV_NAME = "InvertedDoublePendulum-v1"
-ENV_NAME = "InvertedPendulum-v1"
+ENV_NAME = "InvertedDoublePendulum-v1"
+# ENV_NAME = "InvertedPendulum-v1"
 
 Algorithm_Name = "DDPG"
 PI2_coefficient = 30
@@ -191,25 +191,9 @@ for episode in range(MAX_EPISODES):
         if j == MAX_EP_STEPS-1:
             print('Episode:', episode, ' Reward: %i' % int(ep_reward), 'Explore: %.2f' % var )
             break
-    if var >= 0.1:
-        var *= .9999  # decay the action randomness
-    for i in range(train_time):
-        ddpg.learn()
-    print("-----------test----------------")
-    s = env.reset()
-    ep_reward = 0
-    for j in range(MAX_EP_STEPS):
-        a = ddpg.choose_action(s)
-        a = np.clip(a, -1, 1)  # add randomness to action selection for exploration
-        s_, r, done, info = env.step(a)
-        print(f"Current step:{j}")
-        if done:
-            print('Episode:', episode, ' Reward: %i' % int(ep_reward), 'Explore: %.2f' % var)
-            break
-        s = s_
-        ep_reward += r
-        if j == MAX_EP_STEPS - 1:
-            print('Episode:', episode, ' Reward: %i' % int(ep_reward), 'Explore: %.2f' % var)
-            break
+        if var >= 0.1:
+            var *= .9999  # decay the action randomness
+        for i in range(train_time):
+            ddpg.learn()
     summary = sess.run(reward_summary,feed_dict={reward_tensor:ep_reward})
     summary_writer.add_summary(summary,global_step=episode)

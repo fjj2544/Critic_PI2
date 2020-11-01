@@ -1,8 +1,30 @@
 import matplotlib.pyplot as plt
 import numpy as np
+# ENV_NAME = "InvertedPendulum"
 
+ENV_NAME= "InvertedDoublePendulum"
+cpi2 = np.array(np.load(f"./data/numpy/smoothed/ablation_data/CPI2.npy"))
+without_optimal = np.array(np.load(f"./data/numpy/smoothed/ablation_data/optimal_baseline_data.npy"))
+without_v_trace = np.array(np.load(f"./data/numpy/smoothed/ablation_data/vtrace_data.npy"))
+without_action = np.array(np.load(f"./data/numpy/smoothed/ablation_data/CPI2_without_action.npy"))
+print(f"ddpg: {cpi2.shape}\n mpc: {without_optimal.shape} \n cpi2 {without_v_trace.shape} \n without action:{without_action.shape}" )
 
-label = ["Critic PI2","MPC","DDPG","PI2"]
+CONVERGE_VALUE = 4700
+data_number = np.inf
+data_list = []
+real_data = []
+data_list.append(cpi2)
+data_list.append(without_optimal)
+data_list.append(without_v_trace)
+data_list.append(without_action)
+for data in data_list:
+    data_number = min(data_number,len(data))
+data_number = int(data_number)
+for data in data_list:
+    real_data.append(data[:data_number])
+data_list = real_data
+
+label = ["Critic PI2","Without Optimal Action","Without Critic","Without Training Actor"]
 color = ["r","g","b","k"]
 # line_style = ["-","-.",":","--"]
 line_style = ["-","-","-","-"]
@@ -30,9 +52,8 @@ def plot_result(data_list # [algorithm_id,data,*]
                 ,figure_number=3):
     # plt.figure(figsize=(2.8, 1.7), dpi=300)
     '''绘制alpha曲线'''
-
-
     fig, ax = plt.subplots(figsize=(5,1.7), dpi=1000)
+
     plt.gcf().set_facecolor(np.ones(3) * 240 / 255)  # 生成画布的大小
     plt.grid()
     # 取消边框
@@ -51,31 +72,9 @@ def plot_result(data_list # [algorithm_id,data,*]
     print(converge_line.shape)
     plt.plot(t,converge_line,label="converge",color="y",linestyle="--",linewidth=linewidth)
     # plt.legend(loc='best', prop={'family': 'Times New Roman', 'size': legend_font_size})
-    plt.title(f"{ENV_NAME}",fontproperties='Times New Roman',fontsize=labelwidth)
-    save_figure(f"./photo/exp1/{ENV_NAME}/", f"{ENV_NAME}.pdf")
+    # plt.title(f"{ENV_NAME}",fontproperties='Times New Roman',fontsize=labelwidth)
+    save_figure(f"./photo/exp2/{ENV_NAME}/", f"{ENV_NAME}.pdf")
     plt.show()
-if __name__ == '__main__':
-    # ENV_NAME = "InvertedPendulum"
-    ENV_NAME= "InvertedDoublePendulum"
-    ddpg_data = np.array(np.load(f"./data/numpy/{ENV_NAME}/DDPG.npy"))
-    mpc_data = np.array(np.load(f"./data/numpy/{ENV_NAME}/MPC.npy"))
-    cpi2_data = np.array(np.load(f"./data/numpy/{ENV_NAME}/CPI2.npy"))
-    pi2_data = np.array(np.load(f"./data/numpy/{ENV_NAME}/PI2.npy"))
-    print(f"ddpg: {ddpg_data.shape}\n mpc: {mpc_data.shape} \n cpi2 {cpi2_data.shape}\n pi2 {pi2_data.shape}")
+plot_result(data_list,figure_number=4)
 
-    CONVERGE_VALUE = 4700
-    data_number = np.inf
-    data_list = []
-    real_data = []
-    data_list.append(cpi2_data)
-    data_list.append(mpc_data)
-    data_list.append(ddpg_data)
-    data_list.append(pi2_data)
-    for data in data_list:
-        data_number = min(data_number, len(data))
-    data_number = int(data_number)
-    for data in data_list:
-        real_data.append(data[:data_number])
-    data_list = real_data
-    plot_result(data_list,figure_number=4)
-
+#

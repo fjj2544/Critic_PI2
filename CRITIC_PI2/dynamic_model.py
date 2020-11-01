@@ -1,8 +1,8 @@
 import tensorflow as tf
 import numpy as np
 # from envs.Pendulum import reward_function,is_done
-from envs.InvertedPendulum import reward_function,is_done
-# from envs.InvertedDoublePendulum import reward_function,is_done
+# from envs.InvertedPendulum import reward_function,is_done
+from envs.InvertedDoublePendulum import reward_function,is_done
 # from envs.Hopper import reward_function,is_done
 # from envs.Walker2d import reward_function,is_done
 tf.set_random_seed(1)
