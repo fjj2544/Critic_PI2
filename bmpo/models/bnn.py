@@ -4,19 +4,17 @@ from __future__ import absolute_import
 
 import os
 import time
-import pdb
 import itertools
 from collections import OrderedDict
 
 import tensorflow as tf
 import numpy as np
-from tqdm import trange
 from scipy.io import savemat, loadmat
 
 from models.utils import get_required_argument, TensorStandardScaler
 from models.fc import FC
 
-from utils.logging import Progress, Silent
+from utils import Progress, Silent
 
 np.set_printoptions(precision=5)
 

@@ -142,7 +142,7 @@ for episode in range(MAX_EPISODES):
 
         # Add exploration noise
             a = ddpg.choose_action(s)
-            a = np.clip(np.random.normal(a, var), -1, 1)    # add randomness to action selection for exploration
+            a = np.clip(np.random.normal(a, var), -1, 1)    # add randomness to action new_data_source for exploration
             s_, r, done, info = env.step(a)
 
             ddpg.store_transition(s, a, r , s_)
